@@ -27,6 +27,10 @@
 | H4 frequency coincidence | $5.05\times10^{-6}$ uniform / $7.64\times10^{-5}$ log-uniform (15.1×) | `freq_prior_compare.py` |
 
 <p align="center">
+  <img src="paper/preview/wow-transit.gif" width="70%" alt="Animated Wow! transit: 36-s FWHM beam response with 6EQUJ5 samples" />
+</p>
+
+<p align="center">
   <img src="paper/preview/fig-transit.png" width="32%" alt="36-s FWHM transit with 6EQUJ5 samples" />
   <img src="paper/preview/fig-hi4pi.png" width="32%" alt="HI4PI spectra at both horns" />
   <img src="paper/preview/fig-h5.png" width="32%" alt="H5 emulator likelihood surface" />
