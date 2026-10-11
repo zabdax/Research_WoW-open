@@ -1,0 +1,33 @@
+{
+ "meta": {
+  "fits": "HPX_121.fits",
+  "radius_arcmin": 45.0,
+  "window_kms": [
+   -76.0,
+   -72.0
+  ],
+  "n_pixels": 824,
+  "horns_galactic": {
+   "pos": [
+    11.617514479129078,
+    -18.81814546026873
+   ],
+   "neg": [
+    11.86719959313564,
+    -19.415797209989037
+   ]
+  }
+ },
+ "result": {
+  "max_abs_K": 0.1459,
+  "max_pixel_glon": 12.6123,
+  "max_pixel_glat": -19.313,
+  "max_pixel_band_K": [
+   0.0089,
+   0.0528,
+   0.1459,
+   0.098
+  ],
+  "n_pixels_ge_1K": 0
+ }
+}

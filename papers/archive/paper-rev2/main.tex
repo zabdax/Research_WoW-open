@@ -1,0 +1,932 @@
+%% Beginning of file 'manuscript.tex'
+%%
+%% AASTeX v7.0.1 manuscript for the Wow! Signal forensic analysis.
+%% Scientific content is restricted to the frozen evidence package.
+%%
+\documentclass[twocolumn]{aastex701}
+
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+
+%% Wide-table columns below use >{\raggedright\arraybackslash} inline rather
+%% than a \newcolumntype, because the class defines its own column letters.
+
+%% ----------------------------------------------------------------------
+%% Force every table to set upright.
+%% No \rotate command or rotatetable / rotatetable* / longrotatetable /
+%% floatrotatetable environment is used anywhere in this document.
+%% AASTeX v7 additionally auto-rotates any deluxetable whose natural
+%% width exceeds ~516 pt; every deluxetable below therefore carries the
+%% class's \centerwidetable switch, which replaces that sideways setting
+%% with ordinary centering so tables can never be set rotated.
+%% ----------------------------------------------------------------------
+\graphicspath{{./}{figures/}}
+
+%% Custom macros
+\newcommand{\tbeq}{T_{\rm B}}
+\newcommand{\snu}{S_\nu}
+\newcommand{\kmax}{k_{\rm max}}
+
+%% Running headers
+\shorttitle{The Wow! Signal}
+\shortauthors{Shaad et al.}
+
+\begin{document}
+
+\title{The Wow! Signal: Exploring the Boundaries of Evidence and Inference}
+
+%% ----------------------------------------------------------------------
+%% AUTHOR BLOCK
+%% Replace placeholders before submission.
+%% ----------------------------------------------------------------------
+
+\author[sname=Shaad,gname=Zubayer,orcid=0009-0002-2322-8553]{Zubayer Hasan Shaad}
+\affiliation{Government Tolaram College, Bangladesh}
+\email{zubayerislost@gmail.com}
+
+\author[sname=Shadman,gname=Khan,orcid=0009-0009-8153-6352]{S M Shadman Khan}
+\affiliation{Govt. Sundarban Adarsha College, Bangladesh}
+\email{iamshadman28@gmail.com}
+
+%% ----------------------------------------------------------------------
+%% ABSTRACT
+%% ----------------------------------------------------------------------
+
+\begin{abstract}
+The 1977 ``Wow!'' signal remains an unresolved narrowband transient. We present a provenance-aware forensic reassessment of the surviving Wow! signal evidence, quantifying selected physical constraints and showing how incomplete historical selection information limits statistical comparison between competing explanations. We reassess five hypotheses --- instrumental/RFI (H1), cometary emission (H2), interstellar \ion{H}{1} (H3), power-beam leakage (H4), and a stochastic repeater (H5) --- using the frozen Arecibo~II vector \citep{mendez2025} (Table~\ref{tab:obs_vector}). Our JPL-Horizons calculation at the event epoch excludes 266P/Christensen and 335P/Gibbs from both beams (RA offsets of $\simeq46$--$56$~min of time, $\simeq10.6$--$12.5^\circ$ on-sky, against $\pm3$~s/$\pm20'$ tolerances), while the cometary emission mechanism lacks a validated 256-Jy pathway. Compact circular geometry implies $\tbeq\geq1.72\times10^4$~K; declination elongation ($\gtrsim4.09'$ for 8000~K, $\gtrsim6.54'$ for 5000~K) reaches warm-neutral-medium temperatures, but the single-channel width (2.11~km\,s$^{-1}$) and the HI4PI non-detection at $-74$~km\,s$^{-1}$ ($<0.1$~K per channel at both horns) exclude a persistent thermal filament across the tested elongation range, leaving only transient non-thermal scenarios. Published Kipping--Gray chains verify at maxima $32.3\%$/$3.3\%$/$1.78\%$; an approximate analytic emulator ($\simeq5.6\%$ vs $32.3\%$ OSU-only) serves only relative comparisons, in which the unresolved upper-limit 114.1-h Hobart selection function shifts the emulator maximum $5.6\%\to2.5\%$ and the evidence by $0.65$. H4 radiometry is feasible; its 1420-MHz coincidence is a prior-dependent measure ($\sim$$5\times10^{-6}$ under a uniform-in-frequency prior over 1--100~GHz and a $\sim$500~kHz receiver window), not a penalty. No common five-way posterior is identifiable from the surviving record.
+\end{abstract}
+
+\keywords{\uat{Extraterrestrial intelligence}{522} ---
+\uat{Radio transient sources}{2008} ---
+\uat{Bayesian statistics}{1900} ---
+\uat{Radio astronomy}{1338} ---
+\uat{Interstellar medium}{847}}
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 1
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Introduction}
+\label{sec:intro}
+
+The ``Wow!'' signal is an unusually strong example of a historical radio transient for which the original observation survives in substantial detail while the underlying astrophysical cause remains unknown. On 1977 August 15, the Ohio State University Radio Observatory (OSURO) Big Ear telescope recorded a strong, narrowband signal near the neutral-hydrogen 21-cm line. The event was subsequently recognized in the printed observing record by Jerry Ehman, whose annotation ``Wow!'' gave the event its enduring name \citep{ehman1997}. The recorded sequence rose and fell over successive integrations in a form broadly consistent with the expected response of a celestial source passing through the telescope beam.
+
+Big Ear was a meridian transit instrument employing two feed horns separated in right ascension. A stationary celestial source could therefore be expected to produce a characteristic beam response as the Earth rotated, with the two horns sampling nearby right ascensions at different times. The Wow! event exhibited a transit profile close to the expected beam timescale in one horn but did not produce the corresponding response in the other horn. The combination of high apparent signal strength, narrow spectral occupancy, celestial-looking temporal morphology, and subsequent non-detection has motivated decades of discussion spanning instrumental, Solar System, astrophysical, and technological explanations.
+
+The scientific difficulty is not simply that several hypotheses exist. Rather, the surviving evidence is heterogeneous in both provenance and inferential content. Some quantities are direct features of the historical record; others depend on later calibration or reconstruction. Some observations are documented null results with stated sensitivities, whereas other archival observing campaigns preserve telescope operations without preserving the detection criteria used to interpret the resulting data. These distinctions matter because Bayesian model comparison requires a well-defined likelihood for every competing model and a defensible prior structure. A historical observing session cannot automatically be treated as a statistical null experiment merely because its operational or raw records survive.
+
+This problem is especially important for the Wow! signal because several of the most informative quantities are naturally censored. The recovered flux is a lower bound rather than an unconstrained point estimate, while the inferred source extent is an upper bound. Treating such quantities as ordinary measurements can produce artificially precise physical inferences. Similarly, treating missing candidate records as evidence for zero candidates can introduce an undocumented selection function into a likelihood calculation.
+
+The purpose of this study is therefore not to select a numerical ``winner'' among competing explanations. We instead conduct a bounded forensic audit of the surviving evidence and determine the highest inferential level that can be supported for each hypothesis. In particular, we distinguish four questions: what was directly observed; what can be reconstructed from the surviving record; what physical constraints follow deductively; and which statistical or population-level quantities are actually identifiable.
+
+We present a provenance-aware forensic reassessment of the surviving Wow! signal evidence, quantifying selected physical constraints and showing how incomplete historical selection information limits statistical comparison between competing explanations. The resulting analysis establishes the quantitative results used throughout. Our event-epoch ephemeris calculation excludes 266P/Christensen and 335P/Gibbs from both beams, while the cometary emission mechanism lacks a validated pathway (Sec.~\nameref{sec:h2}). Circular compact geometry implies $1.72\times10^4$~K (floor $1.17\times10^4$~K); declination elongation reaches warm-neutral-medium temperatures only conditionally, subject to line-width and HI4PI bounds (Sec.~\nameref{sec:h3}). Published Kipping--Gray chains verify at $32.3\%$/$3.3\%$/$1.78\%$; an approximate emulator serves only relative comparisons, in which the unresolved $114.1$-h Hobart selection function shifts the emulator maximum $5.6\%\to2.5\%$ and the evidence by $0.65$ (H5). H4 radiometry is feasible under a prior-dependent frequency-coincidence tension. A Bayesian marginalization framework is identified for the Hobart exposure. Together these define an identifiability boundary that prevents a unified posterior without unsupported assumptions.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 2
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Evidence, Provenance, and Identifiability Framework}
+\label{sec:provenance}
+
+\subsection{Evidence Freeze and Provenance Classes}
+
+The analysis was conducted under an explicit evidence freeze. The purpose of the freeze is methodological: once a quantitative inference is being evaluated, information should not be introduced selectively in response to the result. All quantities used in the present manuscript therefore belong to one of the following provenance classes:
+
+\begin{itemize}
+    \item \textbf{Direct archival evidence (Level A):} information preserved in primary observational or archival records.
+    \item \textbf{Reconstructed quantities (Level B):} parameters obtained by documented analysis of surviving records or by independent reproduction of a published computational procedure.
+    \item \textbf{Physical inference (Level C):} quantities obtained deductively from Levels A and B through established physical relations.
+    \item \textbf{Parameter likelihoods (Level D):} probability models whose observation operator and relevant selection function are sufficiently specified to evaluate the likelihood over an explicit parameter space.
+    \item \textbf{Population inference (Level E):} posterior quantities requiring occurrence rates, spatial distributions, luminosity functions, technological priors, or analogous higher-level assumptions.
+\end{itemize}
+
+These levels are deliberately separated. A Level-C physical constraint does not by itself provide a Level-E probability for a hypothesis. Conversely, a Level-D likelihood for one model does not make comparable likelihoods available for models whose observation operators or population distributions are unspecified. Figure~\ref{fig:architecture} summarizes this provenance architecture and marks the identifiability boundary beyond which the surviving record cannot support inference.
+
+\begin{figure*}[ht!]
+\plotone{figA_architecture.pdf}
+\caption{Provenance and identifiability architecture used in this analysis. Direct archival observations and documented historical results form the evidential base. Reconstructed quantities and deductive physical constraints can be evaluated where the surviving information is sufficient. Parameter likelihoods require a defined observation operator and selection function, while population posteriors additionally require defensible population priors. Progression to a higher inferential level is conditional on the information required at that level; it is not automatic.}
+\label{fig:architecture}
+\end{figure*}
+
+\subsection{Direct Observations Versus Reconstruction}
+
+The original Big Ear record contains a compact digital representation of the event rather than a modern calibrated time-frequency data cube. The historical receiver sampled its channels at a cadence of approximately 12~s \citep{mendez2024}, and the signal was represented in the printed record by the sequence conventionally summarized as ``6EQUJ5'' in channel 2. Later quantities such as precise coordinates, frequency corrections, and flux-density estimates depend on receiver calibration, beam modeling, and subsequent forensic reconstruction.
+
+This distinction is important because reconstructed quantities inherit assumptions that are not present in the original printout. A reconstructed value can nevertheless be scientifically useful when its derivation is explicit and reproducible. The appropriate epistemic status is then not ``raw measurement'' but ``reconstructed constraint.'' The present analysis retains that distinction throughout.
+
+\subsection{Censored Quantities}
+
+Several observational quantities are naturally censored.
+
+The recovered flux density is a lower bound,
+\[
+\snu\geq256\pm63~{\rm Jy},
+\]
+under the adopted Arecibo~II calibration. The source position within the declination response is not known sufficiently well to establish that the source occupied the beam maximum. An off-axis source would require a larger intrinsic flux to generate the same recorded response. The value is therefore not used as though $256$~Jy were an unconstrained point measurement.
+
+The source angular extent is bounded above,
+\[
+\theta\leq1.9\pm0.1~{\rm arcmin}.
+\]
+This constraint enters the brightness-temperature calculation through the emitting solid angle. Using the maximum allowed solid angle together with the minimum allowed flux gives the most conservative brightness-temperature lower bound.
+
+The duration is likewise retained as a lower bound,
+\[
+\Delta t\geq73.4\pm0.5~{\rm s}.
+\]
+This is a constraint on the observed beam-integrated event duration and is not interpreted as a direct measurement of the intrinsic emission lifetime.
+
+\subsection{Selection Functions and Likelihood Identifiability}
+
+For a set of competing hypotheses $H_i$, Bayesian model comparison requires
+\begin{equation}
+P(H_i\mid D)=
+\frac{P(D\mid H_i)P(H_i)}
+{\sum_j P(D\mid H_j)P(H_j)}.
+\end{equation}
+
+The model likelihood itself depends on the observation process. In schematic form,
+\begin{equation}
+P(D\mid H_i)=
+\int P(D\mid\vartheta,\mathcal{S})
+P(\vartheta\mid H_i)\,d\vartheta,
+\label{eq:general_likelihood}
+\end{equation}
+where $\vartheta$ denotes model parameters and $\mathcal{S}$ represents the relevant selection function.
+
+A selection function can include instrument sensitivity, detection thresholds, false-alarm criteria, RFI excision, candidate-generation rules, temporal coverage, and rejection procedures. If these quantities are missing, the likelihood of a historical non-detection is not determined merely by the amount of telescope time. Raw observing exposure and a verified statistical null result are therefore not equivalent observations.
+
+The framework adopted here treats missing selection information as an identifiability limitation rather than filling it with an assumed threshold. This distinction is central to the interpretation of the 2010--2014 Hobart material and to the decision not to calculate a five-way posterior.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 3
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Observational and Archival Evidence}
+\label{sec:observations}
+
+\subsection{Frozen Big Ear and Arecibo~II Constraints}
+
+The primary observational vector used in this analysis is anchored to the Arecibo~II forensic reanalysis of the original Ohio SETI material \citep{mendez2025}. That source is an unrefereed preprint at the time of writing, adopted as published therein; any revision in a journal version would propagate through Sections~\ref{sec:h2}--\ref{sec:seldemo}. The values adopted here are reproduced without converting censored quantities into point estimates.
+
+\begin{figure*}[ht!]
+\plotone{figB_observational_constraints.pdf}
+\caption{Frozen observational constraints used in the analysis. The 36-s FWHM beam response (8-arcmin beam at $\delta\simeq-27^\circ$) is schematic; red points show the recorded 6EQUJ5 printout values (decoded 6, 14, 26, 30, 19, 5$\sigma$) scaled by the 8.5-Jy channel noise at the 12-s receiver cadence. At S/N~$\simeq30$ the full detectable extent spans $\simeq72$--80~s, consistent with the recorded $6\times12$-s sequence. The 72~s is therefore the full detectable extent, not the FWHM. The flux-density constraint is explicitly treated as a lower limit. The frequency is fixed at the reconstructed topocentric value from the Arecibo~II analysis. The figure shows the structure of the observational constraints rather than implying an uncensored measurement of either flux or intrinsic duration.}
+\label{fig:obs_constraints}
+\end{figure*}
+
+%% ----------------------------------------------------------------------
+%% TABLE 2 (rebuilt)
+%% Column types fixed so that the table sets upright at full \textwidth.
+%% All sources are identical, so the repeated citation column is replaced
+%% by a single tablecomment; \nodata is used for empty cells.
+%% ----------------------------------------------------------------------
+\begin{deluxetable*}{lcccl}
+\centerwidetable
+\tabletypesize{\footnotesize}
+\tablewidth{\textwidth}
+\tablecaption{Frozen observational evidence vector \label{tab:obs_vector}}
+\tablehead{
+\colhead{Quantity} &
+\colhead{Value} &
+\colhead{Limit} &
+\colhead{Units} &
+\colhead{Source}
+}
+\startdata
+Observed frequency ($\nu$)
+& $1420.726\pm0.005$ & \nodata & MHz & \citet{mendez2025}\\
+Flux density ($\snu$)
+& $256\pm63$ & $\geq$ & Jy & \citet{mendez2025}\\
+Channel noise ($\sigma_{\rm ch}$)
+& $8.5\pm2.1$ & \nodata & Jy & \citet{mendez2025}\\
+Peak signal-to-noise ratio
+& $30.1\pm0.4$ & \nodata & $\sigma$ & \citet{mendez2025}\\
+Source angular extent ($\theta$)
+& $1.9\pm0.1$ & $\leq$ & arcmin & \citet{mendez2025}\\
+Transit duration ($\Delta t$)
+& $73.4\pm0.5$ & $\geq$ & s & \citet{mendez2025}\\
+Heliocentric velocity ($v_{\rm helio}$)
+& $-84\pm1$ & \nodata & km\,s$^{-1}$ & \citet{mendez2025}\\
+LSR velocity ($v_{\rm LSR}$)
+& $-74\pm2$ & \nodata & km\,s$^{-1}$ & \citet{mendez2025}\\
+R.A. (positive horn)
+& $19^{\rm h}25^{\rm m}02^{\rm s}\pm3^{\rm s}$ & \nodata & J2000 & \citet{mendez2025}\\
+R.A. (negative horn)
+& $19^{\rm h}27^{\rm m}55^{\rm s}\pm3^{\rm s}$ & \nodata & J2000 & \citet{mendez2025}\\
+Declination (both horns)
+& $-26^\circ57'\pm20'$ & \nodata & J2000 & \citet{mendez2025}\\
+\enddata
+\tablecomments{Censored quantities are retained as one-sided bounds; the ``Limit'' column indicates the sense of the bound, and \nodata\ marks quantities adopted as two-sided measurements. The transit duration is a lower bound on the observed beam-integrated event duration rather than a measurement of the intrinsic emission lifetime. All values are taken from the Arecibo~II reanalysis.}
+\end{deluxetable*}
+
+The event was confined to a single receiver channel and displayed a strong time-dependent response. The Arecibo~II reconstruction gives a topocentric frequency of $1420.726\pm0.005$~MHz and corresponding heliocentric and local-standard-of-rest velocities of approximately $-84\pm1$ and $-74\pm2$~km\,s$^{-1}$, respectively \citep{mendez2025}. These quantities are used as observational constraints rather than as evidence for a particular physical mechanism.
+
+Figure~\ref{fig:obs_constraints} illustrates the relationship between the transit timescale and the censored flux constraint. The 36-s FWHM beam response sets the characteristic transit timescale, while the $\simeq72$-s full detectable extent ($2\times2.6\sigma$ at S/N~$\simeq30$) is consistent with the recorded sequence; the Arecibo~II duration value is retained as a lower limit. The distinction matters when considering models in which the intrinsic source lifetime need not equal the time for which the beam records the source.
+
+\subsection{Hobart 1998--1999}
+
+The 1998--1999 search with the University of Tasmania 26-m telescope at Mount Pleasant provides one of the most useful historical follow-up constraints because its detection sensitivity and null result were documented \citep{gray2002}. The campaign comprised six observing sessions of approximately 14~hr, for a total exposure of roughly 82~hr, directed toward the Big Ear error boxes.
+
+The observations used a 2.5-MHz bandwidth and a 4096-channel spectrometer with approximately 610-Hz channel spacing. \citet{gray2002} reported a detection threshold corresponding to approximately $5.9\sigma$, with a flux-density scale of roughly 18~Jy. The published result therefore supplies a documented historical non-detection with a stated sensitivity.
+
+This result is informative for models predicting sufficiently frequent repetition. It is not, however, equivalent to a complete modern reconstruction of the raw search pipeline. The surviving project evidence does not preserve all of the original computational material needed to reproduce every implementation detail. We therefore use the published non-detection as documented evidence rather than claiming a full re-execution of the historical analysis.
+
+\subsection{Hobart 2010--2014}
+
+A later campaign at the same facility produced a substantially larger collection of observations. The surviving project archive contains telescope pointing information, observing epochs, and exposure records. These records establish that the telescope was directed toward the relevant sky positions during documented intervals.
+
+The archival record does not, however, preserve the detection thresholds, candidate-extraction rules, RFI masks, or candidate lists associated with the historical processing attributed to Bob Gray. Consequently, the observing exposure alone does not establish that zero events satisfying a particular detection criterion were present.
+
+This is a selection-function problem rather than a statement about what physically occurred during the observations. If a threshold and candidate-generation rule were available, the exposure could contribute a formal non-detection likelihood. In their absence, treating the entire campaign as a verified null experiment would require an assumption about the historical search process. The present analysis therefore retains the campaign as archival evidence about pointing and exposure while withholding a quantitative H5 likelihood update.
+
+%% ----------------------------------------------------------------------
+%% Width budget: 0.11+0.24+0.20+0.18 = 0.73\textwidth of column text,
+%% plus 8*\tabcolsep = 32pt of gutter. Well inside \textwidth, so the
+%% class's automatic landscape fallback is never triggered.
+%% ----------------------------------------------------------------------
+\begin{deluxetable*}{>{\raggedright\arraybackslash}p{0.11\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.20\textwidth}>{\raggedright\arraybackslash}p{0.18\textwidth}}
+\centerwidetable
+\tabletypesize{\footnotesize}
+\setlength{\tabcolsep}{4pt}
+\tablewidth{0pt}
+\tablecaption{Archive and follow-up evidence status \label{tab:archive_status}}
+\tablehead{
+\colhead{Dataset} &
+\colhead{Documented constraints} &
+\colhead{Missing elements} &
+\colhead{Inferential status}
+}
+\startdata
+Big Ear (1977)
+& Signal sequence, transit morphology, channel information
+& Complete modern raw time--frequency record
+& Direct / reconstructed\\
+VLA follow-up
+& Published sensitivity and observing constraints
+& Extended continuous time series
+& Published constraint\tablenotemark{a}\\
+Hobart (1998--1999)
+& $\sim$82~hr, $5.9\sigma$, $\sim$18~Jy scale
+& Historical raw reduction material
+& Published non-detection\tablenotemark{b}\\
+Hobart (2010--2014)
+& Pointings, epochs, exposure
+& Thresholds, candidate lists, selection rules
+& Selection function unresolved\\
+\enddata
+\tablenotetext{a}{\citet{gray2001}.}
+\tablenotetext{b}{\citet{gray2002}.}
+\tablecomments{The 2010--2014 records are not interpreted as a confirmed null result. Missing detection metadata prevent reconstruction of the corresponding empirical selection function.}
+\end{deluxetable*}
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 4
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{H1 --- Instrumental or Radio-Frequency Interference Origin}
+\label{sec:h1}
+
+\subsection{Observed Characteristics Relevant to H1}
+
+An instrumental or radio-frequency interference explanation must account for the combination of characteristics present in the surviving record. These include the narrow spectral occupancy, the time-dependent signal envelope, the apparent consistency of the envelope with the telescope beam response, and the absence of a corresponding response in the second horn.
+
+These characteristics constrain particular mechanisms, but they do not define a complete probability model for the entire class of instrumental and anthropogenic explanations. A rigorous exclusion of H1 would require a sufficiently comprehensive model of the relevant receiver failure modes, terrestrial transmission environment, sidelobe coupling, RFI propagation, and historical instrumental state.
+
+\subsection{Mechanism-Level Considerations}
+
+Several classes of mechanism can be considered qualitatively. A transient receiver failure could produce a large excursion in a single channel, but a mechanism capable of generating the observed multi-integration rise and fall would need to reproduce the temporal structure of the recorded sequence. Terrestrial transmissions could enter through sidelobes or other coupling paths, but their expected temporal and spectral behavior depends on transmitter location, frequency stability, propagation geometry, and the telescope response. Aircraft or satellite reflections likewise require a particular combination of source, reflector, Doppler evolution, and beam geometry.
+
+Although a complete H1 likelihood is unavailable, specific mechanism-level constraints can be stated quantitatively from the Arecibo~II reanalysis \citep{mendez2025}. First, the dual-horn operation would cancel interference originating near the telescope, so the observed beam-shaped transit implies a source far beyond Earth orbit; reflection from the Moon is likewise disfavored because the event occurred during New Moon, when the Moon and Sun were on the opposite side of Earth. Second, under an amplitude-agnostic interference hypothesis, the probability of a $\geq30\sigma$ excursion among the discrete amplitude states of the record is of order $(1/32)^6\approx10^{-9}$. Third, the 1420-MHz band is internationally protected, and the second- and third-harmonic terrestrial interpretations (fundamentals near 710 and 473~MHz) are excluded by the documented absence of operating UHF television channels 53/54 and 14 in Ohio in 1977. Fourth, geostationary satellites of the era could not reach the $-27^\circ$ declination of the event, while Molniya-type satellites cross the few-arcminute beam in a fraction of a second, inconsistent with the 72-s sidereal transit. Fifth, solar and geomagnetic activity was low, with no major flares during 12--15 August 1977, and the broadband solar burst types are excluded on bandwidth grounds while types~I and~II occur well below 500~MHz. Subsequent targeted observations add constraints on persistent or recurrent versions of the hypothesis: a VLA search found no narrowband point source at the locale \citep{gray2001}. These constraints narrow the mechanistic space for H1 considerably, but they still do not constitute a probability model over the full instrumental/RFI class.
+
+The surviving record does not contain sufficient auxiliary monitoring information to construct a complete likelihood over these possibilities. In particular, the absence of a demonstrated specific mechanism is not equivalent to an empirical probability of zero RFI.
+
+\subsection{Inferential Status}
+
+The appropriate conclusion is deliberately limited:
+\begin{quote}
+\emph{No specific instrumental or RFI mechanism in the frozen evidence set has been quantitatively demonstrated to reproduce the complete observed event.}
+\end{quote}
+
+This conclusion does not assign a posterior probability to H1 and does not rule out the broader instrumental/RFI class. It establishes only that the present evidence does not contain a validated mechanism-level reconstruction sufficient for a quantitative model comparison.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 5
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{H2 --- Cometary Origin}
+\label{sec:h2}
+
+\subsection{Geometric and Temporal Requirements}
+
+A cometary interpretation requires, at minimum, a Solar System object to occupy the relevant telescope beam at the event epoch and to produce emission with the observed spectral and temporal characteristics. The proposed candidates 266P/Christensen and 335P/Gibbs have therefore been discussed in connection with the Wow! coordinates \citep{paris2017}.
+
+The revised Arecibo~II parameters sharpen the tests available to H2. The reconstructed position is displaced by 7.25~arcmin from previous estimates, with an error box more than three times narrower \citep{mendez2025}, changing the geometry that any cometary ephemeris test must satisfy. The reconstructed frequency of $1420.726\pm0.005$~MHz corresponds to a heliocentric radial velocity of $-84\pm1$~km~s$^{-1}$ \citep{mendez2025}, whereas a cometary \ion{H}{1} line would be Doppler-shifted by the comet's geocentric radial velocity at the event epoch, a quantity of order tens of~km~s$^{-1}$ that can be computed from published ephemerides.
+
+The geometric test is a necessary but not sufficient condition. A candidate must have an ephemeris position compatible with one of the reconstructed horn locations at the event time, while its radial velocity and emission properties must also be compatible with the observed frequency and flux-density constraints.
+
+\subsection{Geometric Exclusion from the Beam}
+\label{sec:h2_ephem}
+
+We computed independent ephemerides for both candidates with JPL Horizons (geocentric; topocentric parallax at $\sim$4~AU is $\sim$2 arcsec, negligible against degree-scale offsets) at the event epoch 1977 August 16 03:16:06 UTC, adopting the frozen M\'endez II Table~4 J2000 horn positions (positive $19^{\rm h}25^{\rm m}02^{\rm s}\pm3^{\rm s}$, $-26^\circ57'18''\pm20'$; negative $19^{\rm h}27^{\rm m}55^{\rm s}\pm3^{\rm s}$, $-26^\circ57'13''\pm20'$; printed galactic latitudes not used --- the positive-horn value $b=-17.85$ disagrees with an independent recomputation, $-18.82$, by $0.97^\circ$, while all other Table~4 rows agree to $\leq0.03^\circ$). At epoch, 266P/Christensen (JPL soln.\ 2019-09-03, 539 obs.\ 2006--2014) is at RA $18^{\rm h}31^{\rm m}50.7^{\rm s}$, Dec $-27^\circ21.7'$, $r=4.73$~AU: $3191$~s ($53.2$~min) and $-24.3'$ from the positive horn ($11.9^\circ$ on-sky), $3364$~s ($56.1$~min) and $-24.4'$ from the negative horn ($12.5^\circ$ on-sky) (criteria $\pm3$~s RA, $40'$ Dec beam). 335P/Gibbs (JPL soln.\ 2023-06-01, 430 obs.\ 2008--2023) is at RA $18^{\rm h}39^{\rm m}12.5^{\rm s}$, Dec $-29^\circ37.0'$, $r=4.56$~AU: $2749$~s ($45.8$~min) and $-159.7'$ from the positive horn ($10.6^\circ$ on-sky), $2922$~s ($48.7$~min) and $-159.8'$ from the negative horn ($11.2^\circ$ on-sky). Formal $3\sigma$ uncertainties (266P RSS $179''$; 335P RSS $10''$) are orders of magnitude below the offsets even inflated one-hundredfold, with the caveat that formal covariances underestimate multi-decade back-integration with non-gravitational forces. The exclusion thus depends on (i) the event epoch 1977 August 16 03:16:06 UTC, (ii) the adopted M\'endez II horn coordinates and their $\pm3$~s/$\pm20'$ uncertainties, (iii) the stated Horizons solutions with their observation arcs, and (iv) the direct geometric comparison of the ephemeris positions against the horn error boxes. These positions agree with the point-by-point rebuttal by members of the original Big Ear team \citep{naapo2017} to better than $1'$ and supersede it as the geometric basis here.
+
+For 266P/Christensen, a further constraint arises from its heliocentric distance. At epoch the comet was at $r=4.73$~AU, well beyond the distance at which solar radiation drives significant sublimation of water ice ($\lesssim$2--3~AU for most short-period comets), although CO/CO$_2$-driven activity at larger distances is documented \citep{gicquel2023}. Water-driven gas production would therefore have been negligible, with no demonstrated water-derived hydrogen coma capable of the observed signal.
+
+\subsection{Physical and Kinematic Constraints}
+
+Even if the geometric test were satisfied, the cometary hypothesis faces two independent physical objections and one methodological objection.
+
+First, there is no established physical mechanism by which a cometary hydrogen coma can produce narrowband 1420~MHz emission at the observed flux-density level of $\snu\geq256$~Jy. Cometary hydrogen is predominantly atomic hydrogen produced by photodissociation of water; its column densities and excitation conditions are orders of magnitude too low to generate the recorded signal strength. No comparably intense cometary hydrogen emission has ever been documented at any radio frequency.
+
+Second, the slow apparent motion of the candidate comets (Horizons rates $\sim$11--13 arcsec hr$^{-1}$, i.e.\ sub-arcsecond motion in the $\sim$162--173~s inter-horn interval, against an $8'\times40'$ beam) is inconsistent with the absence of a second-horn response: had either comet produced the first-horn detection, substantial emission would be expected in the second horn without an additional finely timed variability mechanism. A slow comet crosses the meridian beam on the same Earth-rotation timescale as any sky-fixed source ($\sim$36~s FWHM at $\delta\simeq-27^\circ$), so transit duration alone does not exclude it; the second horn does the work.
+
+Third, the methodological basis of the original cometary claim has been criticized on calibration grounds. \citet{paris2017} reported signal strengths in decibels rather than in janskys, which is non-standard for radio-astronomical flux measurements and raises concerns about confusion with radio-frequency interference. This is a methodological limitation, not a physical objection.
+
+\subsection{Inferential Status}
+
+The appropriate conclusion incorporates both the frozen evidence and the external literature:
+\begin{quote}
+\emph{The proposed 266P/Christensen and 335P/Gibbs explanations are excluded by the reconstructed event geometry computed here, while the proposed cometary \ion{H}{1} emission mechanism lacks an independently validated pathway capable of reproducing the full observed signal.}
+\end{quote}
+
+This conclusion rests on geometric, kinematic, and thermodynamic grounds that are independent of one another. The named-candidate explanations are therefore set aside in the cross-hypothesis comparison, while the generic cometary-emission hypothesis lacks a validated mechanism at the required flux level but is not geometrically excluded.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 6
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{H3 --- Interstellar \ion{H}{1} Cloud and Non-Thermal Flare}
+\label{sec:h3}
+
+\subsection{Frozen Arecibo~II Constraints}
+
+The Arecibo~II reconstruction provides the principal physical inputs for assessing an interstellar \ion{H}{1} interpretation \citep{mendez2025}. Of particular importance are the flux-density lower bound, the angular-size upper bound, and the frequency near the 21-cm transition. The transient-amplification interpretation evaluated in this section follows \citet{mendez2024}, who propose that a magnetar- or soft-gamma-repeater-triggered flare briefly brightened the hydrogen line in cold interstellar clouds through stimulated maser or superradiance emission.
+
+The relevant observational constraints are
+\begin{gather}
+\snu\geq256\pm63~{\rm Jy},\nonumber\\
+\theta\leq1.9\pm0.1~{\rm arcmin},\nonumber\\
+\nu=1420.726\pm0.005~{\rm MHz}.
+\end{gather}
+
+Each one-sided inequality is a 1$\sigma$ constraint on a reconstructed quantity, and we state exactly what the quoted uncertainties mean. The flux density is obtained by \citet{mendez2025} as $\snu={\rm SNR}\times\sigma_{\rm ch}$ with ${\rm SNR}=30.1\pm0.4$, where $\sigma_{\rm ch}$ is the per-channel noise of the transcribed record; the $\pm63$~Jy range is the 1$\sigma$ uncertainty of that reconstruction, and the $\geq$ sign reflects that the true flux can exceed the reconstructed value because of declination-dependent beam attenuation and noise-level uncertainties. The angular-size entry is the deconvolved extent of the source along the right-ascension drift direction, obtained from a Gaussian fit to the transit profile under an assumed 8-arcmin right-ascension beamwidth; the $\pm0.1$~arcmin is the fitting uncertainty of that deconvolution, and no comparable constraint exists in declination. At $\delta\simeq-27^\circ$ the sidereal drift rate is about 13.4 arcseconds per second, so an $8'$ FWHM beam crossing takes $\simeq36$~s; at S/N$\,\simeq30$ the full detectable extent is $\simeq80$~s, observed as $6\times12$-s samples spanning $\simeq72$~s. Both the angular-size bound ($\theta\leq1.9'$ RA extent) and the duration bound ($\Delta t\geq73.4\pm0.5$~s) come from the M\'endez II Gaussian profile fit under the assumed 8-arcmin right-ascension beamwidth, not from counting printout samples: the $\simeq72$~s detectable extent is the observed span of the six 12-s printout values, while $\Delta t\geq73.4$~s is the beam-integrated event duration from the fit. The two numbers are close but defined differently; neither is the intrinsic emission lifetime. Throughout this section we use the nominal values $\snu=256$~Jy and $\theta=1.9$~arcmin, and we propagate the stated uncertainties explicitly below.
+
+\subsection{Brightness-Temperature Lower Bound}
+
+For a source of specific intensity $I_\nu$ and solid angle $\Omega$, the flux density is
+\begin{equation}
+\snu\simeq I_\nu\Omega.
+\end{equation}
+
+In the Rayleigh--Jeans limit,
+\begin{equation}
+I_\nu=
+\frac{2k_{\rm B}\nu^2}{c^2}\tbeq.
+\end{equation}
+
+Combining these relations gives
+\begin{equation}
+\tbeq=
+\frac{\snu c^2}
+{2k_{\rm B}\nu^2\Omega}.
+\label{eq:tb}
+\end{equation}
+
+Converting a flux density into a brightness temperature requires an assumed source solid angle. The Big Ear measurement constrains the source extent only along the right-ascension drift direction; the declination extent is unmeasured, so a source model is required. We adopt the minimal compact model in which the measured right-ascension extent is the angular diameter of a circular uniform disk, the standard convention for brightness-temperature constraints on unresolved or marginally resolved radio sources \citep{condon2016}. This choice is physically motivated: the Arecibo~II analysis itself identifies compact Galactic \ion{H}{1} clouds as the class of sources that produces analogous narrowband transits \citep{mendez2025}, and the observed profile is consistent with a compact, beam-filling source. The circular model is also the strongest assumption consistent with compactness---a source elongated in declination would have a larger solid angle and a correspondingly weaker brightness-temperature requirement---so the bound derived below is explicitly conditional on compact circular geometry.
+
+Under this interpretation, the largest allowed solid angle is
+\begin{equation}
+\Omega_{\max}
+=
+\pi\left(\frac{\theta_{\max}}{2}\right)^2,
+\end{equation}
+with $\theta_{\max}=1.9$~arcmin $=5.527\times10^{-4}$~rad, giving
+\[
+\Omega_{\max}\simeq2.40\times10^{-7}~{\rm sr}.
+\]
+
+Using $\snu=256$~Jy as the conservative lower-bound value,
+\begin{align}
+\tbeq
+&\geq
+\frac{(256\times10^{-26})c^2}
+{2k_{\rm B}\nu^2\Omega_{\max}}
+\nonumber\\
+&\gtrsim
+1.72\times10^4~{\rm K}.
+\label{eq:tb_bound}
+\end{align}
+
+Equation~(\ref{eq:tb_bound}) is a nominal bound: it uses the nominal flux and angular-size values and the adopted circular-source geometry. Because the true flux may exceed the lower limit and the true source size may be smaller than the upper limit, both effects can only increase the inferred brightness temperature within this framework. The effect of the stated reconstruction uncertainties can be quantified directly: propagating the 1$\sigma$ flux and angular-size ranges in the conservative direction ($\snu=193$~Jy, $\theta=2.0$~arcmin) gives
+\[
+\tbeq\geq1.17\times10^4~{\rm K},
+\]
+a relaxation of only about $30\%$. We therefore adopt $1.72\times10^4$~K as the nominal conservative bound conditional on the adopted calibration and geometry, and $1.17\times10^4$~K as its uncertainty-consistent floor; the physical conclusion that follows is insensitive to which of the two is used. Profile-convention sensitivity: M\'endez II derives the $1.9'$ extent from a Gaussian-profile fit ("maximum size ... assuming a beamwidth of 8 arcminutes"), which does not by itself fix whether $1.9'$ is a uniform-disk diameter or a Gaussian FWHM. Read as a Gaussian FWHM, the solid angle is larger by $1/\ln2\simeq1.44$, giving $\tbeq\geq1.19\times10^4$~K nominal ($0.81\times10^4$~K with $1\sigma$-conservative inputs). The nominal value exceeds the warm-neutral-medium scale under either convention; the combined-conservative Gaussian floor sits at the top of that scale, so the non-thermal requirement is robust except at that doubly conservative corner.
+
+\begin{figure*}[ht!]
+\plotone{figC_h3_brightness_temperature.pdf}
+\caption{Brightness temperature as a function of angular source size for the conservative flux-density value $\snu=256$~Jy at $\nu=1420.726$~MHz. The angular-size constraint restricts the source to $\theta\leq1.9'$. At the largest allowed size, the corresponding nominal brightness temperature is $1.72\times10^4$~K, with a 1$\sigma$-propagated floor of $1.17\times10^4$~K. The figure represents a physical constraint conditional on the adopted circular-source geometry and does not encode a population probability for H3.}
+\label{fig:h3_tb}
+\end{figure*}
+
+Figure~\ref{fig:h3_tb} shows the inverse-square dependence of brightness temperature on angular size. Smaller emitting regions correspond to substantially larger brightness temperatures. The lower bound therefore follows from the least demanding combination of the surviving flux and angular-size constraints.
+
+\subsection{Thermal Versus Non-Thermal Emission}
+
+Characteristic temperatures of cold neutral medium gas are of order tens to hundreds of kelvin, while the warm neutral medium can reach temperatures of several thousand kelvin. Under ordinary thermal radiative-transfer conditions, the brightness temperature of optically thick emission is bounded by the excitation temperature and, in LTE, by the relevant gas temperature.
+
+The nominal bound obtained above exceeds characteristic cold-neutral-medium temperatures by more than two orders of magnitude, and even the uncertainty-consistent floor of $1.17\times10^4$~K lies above the several-thousand-kelvin temperature scale of the warm neutral medium. Thus, under the adopted interpretation of the Arecibo~II constraints, ordinary spontaneous thermal emission from cold neutral hydrogen is insufficient to explain the observed brightness temperature. An interstellar \ion{H}{1} interpretation would, for the adopted compact circular geometry, require a non-thermal mechanism, such as stimulated emission or another coherent amplification process. The circular model is an assumption, not an observationally established morphology: the measured right-ascension extent alone does not fix the emitting solid angle.
+
+This physical conclusion should not be confused with a probability for H3. The occurrence rate, luminosity function, beaming properties, pumping conditions, and spatial distribution of hypothetical transient \ion{H}{1} amplification events are not sufficiently constrained here to define a population prior. The analysis therefore establishes a physical requirement without assigning $P({\rm H3}\mid D)$.
+
+\subsection{Geometric Sensitivity: Declination-Elongated Sources}
+\label{sec:h3_geometry}
+
+The brightness-temperature bound derived above is conditional on the compact circular-source model. This subsection examines how the bound responds to relaxing that geometric assumption, given a fundamental asymmetry in the Big Ear beam.
+
+The Big Ear telescope had a half-power beamwidth (HPBW) of approximately 8~arcmin in right ascension but approximately 40~arcmin in declination \citep{ehman1997,mendez2024}. The 5:1 beam aspect ratio reflects the disparity between the horizontal and vertical aperture dimensions of the Kraus-type design. For the Wow! event---a single, unrepeated transit---no adjacent declination sweep exists, so the source position within the 40-arcmin declination beam is fundamentally undetermined. The transit profile constrains the source extent only along the drift (right-ascension) direction; the declination extent is entirely unconstrained by the observation.
+
+The compact circular model adopted in Section~\nameref{sec:h3} assigns the source a uniform-disk solid angle $\Omega_{\rm circ}=\pi(\theta_{\rm RA}/2)^2$ with $\theta_{\rm RA}=1.9$~arcmin, yielding $\Omega_{\rm circ}\simeq2.40\times10^{-7}$~sr. Consider instead a filamentary or sheet-like \ion{H}{1} cloud elongated in declination. If such a structure subtends an angular extent $\theta_{\rm Dec}$ in the north--south direction while remaining $\theta_{\rm RA}=1.9$~arcmin in right ascension, the emitting solid angle becomes
+\begin{equation}
+\Omega_{\rm elong}
+=
+\pi\left(\frac{\theta_{\rm RA}}{2}\right)
+\left(\frac{\theta_{\rm Dec}}{2}\right),
+\label{eq:omega_elong}
+\end{equation}
+and the corresponding brightness temperature from Equation~(\ref{eq:tb}) scales as
+\begin{equation}
+\tbeq^{\rm (elong)}
+=
+\tbeq^{\rm (circ)}\times\frac{\theta_{\rm RA}}{\theta_{\rm Dec}}.
+\label{eq:tb_elong}
+\end{equation}
+
+Because the telescope cannot localize the source to better than $\sim$40~arcmin in declination, a cloud filling the full declination beam ($\theta_{\rm Dec}\simeq40$~arcmin) would increase the solid angle by a factor of $40'/1.9'\approx21$ relative to the circular model. The resulting brightness temperatures are
+\begin{align}
+\tbeq^{\rm (elong,\,nom)}
+&\simeq
+\frac{1.72\times10^4}{21}
+\simeq
+820~{\rm K},
+\nonumber\\
+\tbeq^{\rm (elong,\,floor)}
+&\simeq
+\frac{1.17\times10^4}{20}
+\simeq
+585~{\rm K}.
+\label{eq:tb_elong_values}
+\end{align}
+
+For context, the warm neutral medium (WNM) of the interstellar medium has characteristic kinetic temperatures of approximately 5000--8000~K \citep{wolfire2003}, while the cold neutral medium (CNM) occupies approximately 50--200~K. A moderately elongated filament need not fill the entire 40-arcmin declination beam to bring the brightness temperature into the WNM thermal regime: a structure with $\theta_{\rm Dec}\gtrsim4.09$~arcmin (about twice the RA extent, $2\times1.9'=3.8'$) would already lower the nominal bound below 8000~K, and $\theta_{\rm Dec}\gtrsim6.54$~arcmin would bring it below 5000~K (under the Gaussian-profile convention these become $\gtrsim2.83'$ and $\gtrsim4.53'$).
+
+The physical implication is that the \emph{absolute} requirement for a non-thermal maser mechanism is conditional on the assumed source geometry. A compact, circular source demands $\tbeq\geq1.72\times10^4$~K, which is incompatible with any thermal phase of the neutral ISM. An elongated filamentary cloud aligned in declination---a morphology that is both observationally common in Galactic \ion{H}{1} surveys and undetectable by the Big Ear's beam geometry---could produce the observed signal at temperatures consistent with the WNM without invoking stimulated emission or coherent amplification. The circular bound remains the most conservative constraint and is the appropriate default for the cross-hypothesis comparison, but the geometric degeneracy must be acknowledged as a systematic limitation of the observation.
+
+\subsection{HI4PI Check at the Event Velocity}
+\label{sec:hi4pi}
+
+A persistent thermal filament would still be present today and is therefore directly testable in all-sky \ion{H}{1} surveys. We extracted HI4PI survey spectra \citep{hi4pi2016} (CDS J/A+A/594/A116 file HPX\_121.fits, parent pixel 120; HEALPix nside=1024 Ring; $16.2'$ beam; $1.2882$~km\,s$^{-1}$ LSRK channels) at both horn positions (positive $19^{\rm h}25^{\rm m}02^{\rm s}$, $-26^\circ57'18''$; negative $19^{\rm h}27^{\rm m}55^{\rm s}$, $-26^\circ57'13''$) and at $\pm20'$ and $\pm40'$ declination offsets spanning the $40'$ beam. In the $-76$ to $-72$~km\,s$^{-1}$ channels bracketing the event velocity, all ten spectra read $\leq0.10$~K in absolute value per channel, with in-band rms $0.01$--$0.05$~K (values and reproduction script: Section~\ref{sec:availability}). The comparison rests on an explicit beam-coupling model: a uniform-brightness elliptical filament whose right-ascension width is fixed at the observed $1.9'$ while its declination extent is left free, with the two-dimensional overlap against the $16.2'$ Gaussian HI4PI beam computed directly. For a line at or below the HI4PI channel width, the central beam then expects $\simeq163$~K per channel for compact geometry, $\simeq160$~K at the $4$--$6.5'$ elongations that reach warm-neutral-medium temperatures, $\simeq130$~K at $20'$, and $\simeq84$~K even for a filament filling the full $40'$ beam; a thermally broadened line carries more total flux and predicts still higher per-channel values ($\sim450$--$870$~K). All exceed the measured $\leq0.10$~K by more than two orders of magnitude at every tested elongation. A persistent source at the relevant velocity is therefore excluded across the tested elongation range. The surviving interstellar-\ion{H}{1} parameter space is therefore transient and, by the single-channel line-width bound (a thermal $5000$--$8000$~K line spans roughly seven to nine 10-kHz channels while the signal occupies one, $2.11$~km\,s$^{-1}$), non-thermal under the geometries considered here (Fig.~\ref{fig:hi4pi}). This exclusion is consistent with a transient-only picture of the kind proposed by \citet{mendez2024}; our HI4PI check bears on the persistent-filament alternative and does not test their flare model directly. The survey constrains persistent emission at the sampled velocity and epoch; it does not observe the source at the 1977 event epoch. The survey constrains persistent emission at the sampled velocity and epoch; it does not observe the source at the 1977 event epoch.
+
+\begin{figure*}[ht!]
+\plotone{figG_hi4pi_spectrum.pdf}
+\caption{HI4PI spectra (16.2$'$ beam, 1.29~km\,s$^{-1}$ channels) at the Wow! positive and negative horn positions across the event velocity. The red band marks VLSR $-74\pm2$~km\,s$^{-1}$; measured brightness in the band is $<0.1$~K per channel (rms $\simeq0.04$~K) at both positions. A persistent compact source at the Wow! flux level would appear at $\gtrsim164$~K per channel; elongated morphologies dilute this across beams but remain excluded (Sec.~\ref{sec:hi4pi}).}
+\label{fig:hi4pi}
+\end{figure*}
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 7
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{H4 --- Artificial Power-Beam Leakage}
+\label{sec:h4}
+
+\subsection{Conditional Radiometric Requirement}
+
+A technological interpretation in which the observed signal is leakage from a highly directional power-beaming system can be expressed through a conditional radiometric requirement. For isotropic-equivalent radiated power (EIRP), the received spectral flux density satisfies
+\begin{equation}
+\snu=
+\frac{{\rm EIRP}}
+{4\pi D^2\Delta\nu},
+\label{eq:eirp}
+\end{equation}
+where $D$ is the source distance and $\Delta\nu$ is the effective emission bandwidth.
+
+The bandwidth is not measured. The signal was recorded in a single 10-kHz channel, which bounds the emission bandwidth from above ($\Delta\nu\leq10$~kHz) but does not determine it, and a signal confined to one channel is equally consistent with any smaller bandwidth. Amplifier physics independently motivates narrow emission from a power-beaming source: high-gain amplifiers have small fractional bandwidths (gain-bandwidth product of order $10^{-5}$, comparable to $10~{\rm kHz}/1.41~{\rm GHz}$) \citep{benford2025}. Equation~(\ref{eq:eirp}) must therefore be applied conditionally: for an assumed emission bandwidth $\Delta\nu$, the EIRP required to produce the observed flux density at distance $D$ is
+\begin{equation}
+\begin{split}
+{\rm EIRP}_{\rm req}(D,\Delta\nu)
+&=
+4\pi D^2\,\snu\,\Delta\nu \\
+&\simeq
+3.06\times10^{14}
+\left(\frac{D}{1~{\rm pc}}\right)^2 \\
+&\quad\times
+\left(\frac{\Delta\nu}{10~{\rm kHz}}\right)
+\left(\frac{\snu}{256~{\rm Jy}}\right)
+~{\rm W},
+\end{split}
+\label{eq:eirp_req}
+\end{equation}
+where we have inserted the flux-density lower bound $\snu\geq256$~Jy; for the maximum channel-width assumption $\Delta\nu=10$~kHz the band-integrated received flux is $\snu\Delta\nu\geq2.56\times10^{-20}$~W~m$^{-2}$. Two features of Equation~(\ref{eq:eirp_req}) deserve emphasis. First, the requirement is {\em linear} in the assumed bandwidth, so a single-bandwidth number is an assumption rather than a lower bound: a transmitter confined to a narrower band within the 10-kHz channel requires proportionally less power, while an interpretation in which the emission fills the channel sets the largest requirement consistent with the record. Second, the distance is unknown and enters quadratically, so the constraint is genuinely a two-parameter family rather than a single number.
+
+\begin{deluxetable}{lccc}
+\centerwidetable
+\tablecaption{Conditional EIRP requirement (W) as a function of assumed source distance and emission bandwidth, from Equation~(\ref{eq:eirp_req}) with $\snu=256$~Jy \label{tab:eirp}}
+\tablehead{
+\colhead{Distance} &
+\colhead{$\Delta\nu=1$~Hz} &
+\colhead{$\Delta\nu=1$~kHz} &
+\colhead{$\Delta\nu=10$~kHz}
+}
+\startdata
+100~AU (Solar System) & $7.2\times10^{3}$ & $7.2\times10^{6}$ & $7.2\times10^{7}$ \\
+1.3~pc & $5.2\times10^{10}$ & $5.2\times10^{13}$ & $5.2\times10^{14}$ \\
+10~pc & $3.1\times10^{12}$ & $3.1\times10^{15}$ & $3.1\times10^{16}$ \\
+100~pc & $3.1\times10^{14}$ & $3.1\times10^{17}$ & $3.1\times10^{18}$ \\
+1~kpc & $3.1\times10^{16}$ & $3.1\times10^{19}$ & $3.1\times10^{20}$ \\
+\enddata
+\tablecomments{All entries scale linearly with the assumed bandwidth and with the adopted flux-density lower bound. The 10-kHz column assumes the emission fills the recorded channel and therefore represents the largest requirement consistent with the single-channel record, not a lower bound.}
+\end{deluxetable}
+
+Table~\ref{tab:eirp} tabulates the requirement. It can be compared with published beacon engineering: cost-optimized interstellar beacon concepts reach ${\rm EIRP}\sim10^{17}$~W at gigahertz frequencies, with searchlight dwell times of 10--100~s consistent with the 72-s transit duration \citep{benford2010,benford2021}. The Wow! requirement is of that order only for a nearby source ($D\lesssim10$--30~pc at $\Delta\nu=10$~kHz, or proportionally farther for narrower bands); at 1~kpc the channel-filling requirement of $3.1\times10^{20}$~W exceeds such concepts by more than three orders of magnitude. Within the Solar System the requirement is trivially achievable, which is why subsequent targeted searches at much higher sensitivity (e.g., $\snu\sim5.6$--146~Jy limits at the putative source star; \citealt{perez2022}) are the operative tests of the nearby-transmitter version of H4. These values are conditional scaling relations rather than estimates of an actual transmitter because neither the source distance nor its emission geometry is known.
+
+For a transmitter with antenna gain $G$, the physical transmitter power is related approximately by
+\[
+P_t={\rm EIRP}/G.
+\]
+The achievable gain depends on the actual aperture, illumination efficiency, and operating wavelength. A nominal large aperture at 1.42~GHz can have very high directive gain, but inferring a particular transmitter design would require additional assumptions not present in the frozen evidence.
+
+\subsection{The Frequency Coincidence}
+
+While the signal satisfies the radiometric requirements of accidental power-beam leakage, a tension arises from the observed frequency. A high-power interstellar propulsion or power-beaming system is optimized by antenna physics (beam divergence scales as $\lambda/D$, so tighter beams require shorter wavelengths), atmospheric and interstellar-medium transmission, and power-generation efficiency. These engineering figures of merit favor frequencies in the range of approximately 3--100~GHz for microwave power transfer, or optical/near-infrared wavelengths for light-sail propulsion concepts \citep{benford2010}; the engineering literature considered here does not identify 1420~MHz as an optimum. Indeed, the 21-cm wavelength imposes especially large aperture requirements for a given beam solid angle, and the 1420~MHz resonance line of interstellar \ion{H}{1} is subject to resonant absorption and stimulated-emission processes along any interstellar sightline, making it a counter-productive choice for energy transfer.
+
+By contrast, 1420~MHz has been recognized since \citet{cocconi1959} as the premier Schelling point for \emph{intentional} interstellar communication: the hyperfine transition of the most abundant element in the universe, independently discoverable by any radio-capable civilization, and situated in the quietest part of the radio spectrum. This concept was extended to the ``water hole'' band (1.42--1.66~GHz, bracketed by the \ion{H}{1} and OH lines) by \citet{oliver1971}. The frequency is therefore strongly associated with deliberate communicative intent, not with inadvertent industrial leakage. Benford argues microwave-band economics (cost, atmospheric and interstellar transmission) favor microwaves generally for power beaming \citep{benford2021}, which motivates the band but not the 1420-MHz line specifically.
+
+The resulting tension is that the accidental-leakage scenario requires a non-communication system to operate, by coincidence, at the single frequency most traditionally associated with deliberate interstellar communication. The Big Ear receiver monitored only $\sim$500~kHz of instantaneous bandwidth (rest-frame nominal center 1420.4056~MHz; GSR-tracked instantaneous center $\approx$1420.491~MHz at the event, band 1420.246--1420.736~MHz); for a power beam operating anywhere in the 1--100~GHz engineering design space, the prior probability of falling within that window by chance is $\sim5\times10^{-6}$ under a uniform-in-frequency prior over 1--100~GHz and a $\sim$500~kHz receiver window. This does not invalidate H4 as a physical scenario, but it introduces a fine-tuning requirement that is most acute for H4: H3 emits at 1420~MHz because it \emph{must} (the line is physics-mandated), while H5 emits there because the frequency is \emph{chosen} as a Schelling point. H4 requires the frequency to be an unexplained coincidence; H1 requires a similar coincidence, namely a terrestrial transmitter operating in the protected 1420-MHz band at exactly the \ion{H}{1} line. This tension is qualitative and prior-dependent; it is not used as a cross-hypothesis likelihood. This is a prior-dependent frequency-coincidence measure, not a probability that H4 is correct and not a likelihood penalty. Under a log-uniform-in-frequency prior over the same 1--100~GHz range, the same window gives $\sim7.6\times10^{-5}$, about 15 times larger. The value also depends on the assumed frequency range and on the bandwidth convention.
+
+\subsection{Population-Level Limitation}
+
+The radiometric calculation demonstrates that H4 can be parameterized conditionally, but it does not determine how frequently such transmitters exist, where they are located, how often they operate, or what fraction of their beams intersect Earth. Without those population quantities, the calculation cannot be converted into a posterior probability for H4.
+
+We therefore treat H4 as a conditional feasibility calculation rather than as a probabilistic explanation of the event.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 8
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{H5 --- Stochastic Repeating ETI Beacon}
+\label{sec:h5}
+
+\subsection{The Kipping--Gray Stochastic Model}
+
+\citet{kipping2022} considered whether the Wow! signal could arise from a stochastic repeating beacon whose transmissions occur at random times. In the model, event starts follow a homogeneous Poisson process with event rate $\lambda$, while each event has a duration $T$.
+
+For an interval $\Delta t$, the expected number of event starts is
+\begin{equation}
+\mu=\lambda\Delta t,
+\end{equation}
+and the number of events $k$ follows
+\begin{equation}
+P(k\mid\mu)=
+\frac{\mu^k e^{-\mu}}{k!}.
+\label{eq:poisson}
+\end{equation}
+
+The probability of a Wow-like event is not determined by the Poisson count alone. It depends on the temporal observation windows of the Big Ear system and on the requirement that a pulse overlap the relevant observation in the required way while avoiding an incompatible second-horn response. The Kipping--Gray calculation therefore combines the stochastic event process with the timing and geometry of the historical observing passes.
+
+The resulting quantity is a parameter likelihood over $(\lambda,T)$. It is not, by itself, the posterior probability that H5 is the correct hypothesis. Throughout this section we report the {\em maximum likelihood}, the maximum of this parameter likelihood over the $(\lambda,T)$ grid. We deliberately avoid the term ``MAP likelihood'': a maximum a posteriori estimate requires specified priors, and on the flat log-space priors used in the published chains the posterior mode coincides with the maximum likelihood. In no case is any of these numbers a probability that H5 is correct.
+
+\subsection{Verification against the Published Implementation}
+\label{sec:h5_verify}
+
+The published calculation has a public code release \citep{kipping2022code}, which makes a precise verification possible. The released Fortran implementation \citep[{\tt wow.f90};][]{kipping2022code} evaluates the likelihood on a $150\times160$ grid, logarithmically spaced in $T\in[72~{\rm s},\,e^{-1}~{\rm d}]$ and $\lambda\in[e^{-4},\,e^{2}]~{\rm day}^{-1}$, with a hard event-count truncation of $\kmax=100$. The likelihood at each grid point is estimated by Monte Carlo: Poisson event trains are drawn over a 2673-day baseline containing the 90 documented Big Ear observing days, a signal is registered when it overlaps the 72-s observation window in the primary horn without an incompatible second-horn response (horn offset 162~s), and the trial is repeated until a fixed precision criterion is met. The released Markov-chain files then sample this likelihood under three constraint tiers: the 1977 Big Ear detection alone (OSU), the addition of the published 1998--1999 Hobart non-detection (OSU$+$Hobart), and the addition of the remaining follow-up constraints (META and Allen Telescope Array \citep{harp2020}; ALL).
+
+We verified the published results by recomputing the maximum of the log-likelihood column in each released chain file. The maxima are $32.3\%$ (OSU), $3.3\%$ (OSU$+$Hobart), and $1.78\%$ (ALL), exactly reproducing the published values. The published all-constraints maximum likelihood of $1.78\%$ is therefore confirmed against the authors' own released products, and the strong dependence of the maximum likelihood on which follow-up constraints are included ($32.3\%\rightarrow3.3\%\rightarrow1.78\%$) is itself a direct, empirical illustration of how strongly the H5 inference is controlled by the assumed selection functions of the follow-up campaigns.
+
+\subsection{Independent Analytic Emulator}
+\label{sec:h5_emulator}
+
+We also constructed an independent analytic emulator of the same calculation, with its conventions stated in full. The likelihood is the probability of exactly one Wow-like hit day over the 2673-day baseline and zero other recognizable hit days, evaluated as a finite Poisson sum over event counts up to an explicit truncation $\kmax$, using the same 90 observing days, 72-s windows, and 162-s horn offset, and with the pooled follow-up exposure represented by an exponential non-detection factor $\exp(-\lambda\,T_{\rm fu})$ with $T_{\rm fu}=192~{\rm hr}=8$~d. This construction is related to, but not equivalent to, the published pipeline: the published likelihood is estimated by explicit Monte Carlo sampling of event times rather than by a uniform-occupancy analytic approximation, its conditioning event is defined through the per-day hit logic of the simulation, and its follow-up constraints are applied per campaign rather than pooled. We therefore do not claim that the emulator reproduces the published implementation end-to-end; it is a transparent independent cross-check whose absolute scale differs from the chain values (its no-follow-up maximum is $5.6\%$, against $32.3\%$ for the published OSU chain), and we use it below only for controlled relative comparisons in which its conventions are held fixed.
+
+Within the emulator, the truncated configuration with $\kmax=100$ gives a maximum likelihood of $\simeq0.8\%$, while the converged value for $\kmax\geq500$ is $1.58\%$; an untruncated Monte Carlo evaluation of the same estimator gives $1.58\%$ as well (Figure~\ref{fig:h5_convergence}). The emulator is thus sensitive to the truncation convention at the factor-two level; the published value itself, however, is verified independently in Section~\nameref{sec:h5_verify} and is not in doubt. All emulator code, the released-chain verification, and the selection-function calculation of Section~\nameref{sec:seldemo} are included in the reproducibility package accompanying this article (Section~\nameref{sec:availability}).
+
+\begin{figure*}[ht!]
+\plotone{figD_h5_likelihood.pdf}
+\caption{Independent analytic emulator (Section~\nameref{sec:h5_emulator}) of the H5 stochastic-repeater parameter likelihood in $(\ln T,\ln\lambda)$ space, including the pooled 192-hr follow-up non-detection factor. The displayed quantity is a parameter likelihood associated with the stochastic-repeater model, not a posterior probability that H5 is correct; its cross is the maximum of the emulator likelihood. The peak location depends on the numerical grid used for the reconstruction.}
+\label{fig:h5_likelihood}
+\end{figure*}
+
+\begin{figure*}[ht!]
+\plotone{figE_h5_convergence.pdf}
+\caption{Convergence diagnostic for the independent analytic emulator of the H5 calculation. The figure compares the emulator maximum likelihood as $\kmax$ is increased, with the pooled 192-hr follow-up non-detection factor applied. Horizontal reference lines show the maximum likelihoods recomputed from the released published chains (OSU$+$Hobart: $3.3\%$; ALL: $1.78\%$). The purpose of the plot is to diagnose the emulator's numerical sensitivity to truncation, not to characterize the published result as a probability or to claim a revised hypothesis posterior.}
+\label{fig:h5_convergence}
+\end{figure*}
+
+Figure~\ref{fig:h5_likelihood} displays the reconstructed parameter surface of the emulator, while Figure~\ref{fig:h5_convergence} examines its sensitivity to event-count truncation. The finite-sum emulator approaches a stable value at sufficiently large $\kmax$, and an untruncated Monte Carlo evaluation of the same estimator agrees with the converged finite-sum value.
+
+\begin{deluxetable}{lcl}
+\centerwidetable
+\tablecaption{Emulator maxima, pipelines, and conditioning. \label{tab:emulator_map}}
+\tablehead{
+\colhead{Maximum} &
+\colhead{Pipeline} &
+\colhead{Conditions}
+}
+\startdata
+$5.62\%$ & emulator & no follow-up (OSU-only) \\
+$2.52\%$ & emulator & S1 scenario on Hobart 2010--14 upper-limit span \\
+$1.58\%$ & emulator & pooled 192-hr follow-up \\
+\enddata
+\tablecomments{The three emulator maxima differ only in follow-up conditioning and are not interchangeable with the published-chain maxima ($32.3\%$/$3.3\%$/$1.78\%$).}
+\end{deluxetable}
+
+\begin{table*}[ht!]
+\centering
+\caption{Verification and independent numerical characterization of the H5 calculation. The first three rows are recomputed maxima of the log-likelihood column in the released published chain files \citep{kipping2022code} and reproduce the published values; they are verifications, not independent reimplementations. The lower three rows come from the independent analytic emulator of Section~\nameref{sec:h5_emulator}, whose conditioning and follow-up modeling differ from the published pipeline (see text); its absolute scale is therefore not directly comparable to the chain values, and it is used only for controlled relative comparisons. All values are parameter-likelihood maxima for the stochastic-repeater model, not posterior probabilities for H5.}
+\label{tab:h5_recon}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc>{\raggedright\arraybackslash}p{0.24\textwidth}@{}}
+\toprule
+Implementation & Constraints & Truncation & Maximum likelihood & Interpretation \\
+\midrule
+Published chain (released) & OSU (1977 only) & $\kmax=100$ & $32.3\%$ & Verified from released chain \\
+Published chain (released) & OSU$+$Hobart (1998--99) & $\kmax=100$ & $3.3\%$ & Verified from released chain \\
+Published chain (released) & OSU$+$Hobart$+$META$+$ATA & $\kmax=100$ & $1.78\%$ & Verified from released chain \\
+Independent analytic emulator & Pooled 192-hr follow-up & $\kmax=100$ & $\simeq0.8\%$ & Truncation-sensitive regime \\
+Independent analytic emulator & Pooled 192-hr follow-up & $\kmax\geq500$ & $1.58\%$ & Converged emulator value \\
+Independent Monte Carlo evaluation & Pooled 192-hr follow-up & Untruncated & $1.58\%$ & Cross-check of emulator \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Table~\ref{tab:h5_recon} summarizes the verification and the emulator configurations. The status of the H5 numerical work is therefore as follows. The published maximum likelihood is verified exactly against the authors' released products. The independent emulator does not reproduce the published pipeline end-to-end; its differences (analytic versus Monte Carlo likelihood evaluation, pooled versus per-campaign follow-up constraints, and the conditioning event) are documented, and its residual sensitivity to the truncation convention is quantified in Figure~\ref{fig:h5_convergence}. Neither the verified published value nor the emulator value constitutes a probability of H5.
+
+\subsection{2010--2014 Hobart Selection Function}
+
+The later Hobart observations cannot be inserted into the same likelihood simply by multiplying the exposure by an exponential non-detection term. Such a term is justified only if the observing intervals have a defined probability of detecting an event of the relevant type and strength.
+
+For the 2010--2014 material, the project archive establishes pointings and exposure but does not preserve the historical detection threshold, candidate-generation procedure, false-alarm criterion, or candidate outcome catalogue. Consequently, the probability that an H5 event would have been recognized in those data is not identifiable from the surviving information.
+
+This distinction is important. The statement is not that the campaign detected no candidates. It is that the candidate outcomes needed to establish a quantitative null likelihood are unavailable. Treating the campaign as zero detections would therefore introduce an unverified selection function and could artificially suppress the inferred event rate.
+
+The 2010--2014 archive is consequently retained as evidence about historical exposure and observing geometry but is not used to construct a quantitative H5 follow-up likelihood.
+
+\subsection{A Demonstrative Selection-Function Calculation}
+\label{sec:seldemo}
+
+The claim that the missing selection function blocks a quantitative H5 update can be made demonstrative rather than declarative. The frozen archive documents eleven 2010--2014 sessions at the Wow! locale with a combined session span of $114.1$~h, i.e., $T_{\rm H}=4.75$~d (the spans are first-to-last-spectrum intervals and therefore upper limits on usable time). Consider two limiting selection-function scenarios for this exposure. The archive's missing metadata do not establish equal prior weight for the two scenarios. S1 ({\em transparent}): every Wow-like event---a $\geq72$-s, high-flux narrowband transient within the tracked beam and band---would have been recognized, so that the absence of recognized events constitutes an effective null and the likelihood acquires the factor $\exp(-\lambda T_{\rm H})$. S2 ({\em opaque}): because the detection threshold, candidate-generation, and verification rules of those sessions are not preserved, the archive contributes no usable information and the likelihood is unchanged. At fixed $(T,\lambda)$ the transparent-selection likelihood is smaller than the opaque-selection likelihood by $\exp(-\lambda T_{\rm H})$. This treats the exposure as a fixed window and the session span as usable time. These two approximations pull in opposite directions: the first-to-last-spectrum span can overstate usable observing time, while ignoring events that begin before the window and overlap into it understates the detectable start-time interval (which extends a further duration $T$ before each window). Hence $\exp(-\lambda T_{\rm H})$ is presented as an illustrative transparent-selection scenario, not a rigorous upper bound on the penalty.
+
+Figure~\ref{fig:hobart_selection} shows this ratio across the model grid. At the OSU-only maximum-likelihood rate of our emulator ($\lambda^\ast=0.17~{\rm day}^{-1}$) the factor is $0.44$; at $\lambda=1~{\rm day}^{-1}$ it is $8.7\times10^{-3}$; and at $\lambda\gtrsim5~{\rm day}^{-1}$ it falls below $10^{-10}$. Within the independent analytic emulator of Section~\nameref{sec:h5_emulator}, with all other conventions held fixed, adopting S1 instead of S2 lowers the maximum likelihood from $5.62\%$ to $2.52\%$ (Table~\ref{tab:emulator_map}; a factor of $2.2$ at the peak)---and reduces the likelihood integrated over the flat $(\ln T,\ln\lambda)$ grid (the Bayesian evidence up to the common prior normalization) by a factor of $0.65$, where the $114.1$-h exposure entering S1 is the first-to-last-spectrum session span and therefore an upper limit on usable time.
+
+The published chains supply an independent empirical anchor for the size of such updates: adding the single published 1998--1999 Hobart non-detection moves the maximum likelihood from $32.3\%$ to $3.3\%$, a factor of ten under one particular, fully documented selection function. The 2010--2014 exposure is of the same order as the 1998--1999 on-source time, so an update of that magnitude is available {\em if} the selection function is known---which for 2010--2014 it is not. The same archived exposure therefore supports updates ranging from exactly zero (S2) to a factor of several at the likelihood peak and beyond two orders of magnitude across parameter space (S1). This is the demonstrative form of the identifiability claim: it is not that no update can be computed for the 2010--2014 data, but that the computed update is governed by the unknowable selection function rather than by the data themselves.
+
+\begin{figure}[ht!]
+\plotone{figF_hobart_selection.pdf}
+\caption{Selection-function dependence of the 2010--2014 Hobart likelihood update. The curve shows the ratio of the transparent-selection likelihood (S1: the $114.1$-h exposure treated as an effective non-detection) to the opaque-selection likelihood (S2: no usable constraint) at fixed $(T,\lambda)$, which equals $\exp(-\lambda T_{\rm H})$ with $T_{\rm H}=4.75$~d. The vertical line marks the OSU-only maximum-likelihood rate of the independent analytic emulator. Two limiting selection-function scenarios applied to the same archived exposure thus produce updates differing by up to many orders of magnitude, which is the demonstrative basis for excluding the 2010--2014 data from the quantitative H5 likelihood.}
+\label{fig:hobart_selection}
+\end{figure}
+
+\subsection{Bayesian Marginalization over the Unknown Threshold}
+\label{sec:h5_bayes_marg}
+
+The S1/S2 framework above treats the unknown detection threshold as a binary choice between two extremes: a perfectly transparent survey (S1, $S_{\rm th}=0$) and a completely opaque archive (S2, $S_{\rm th}\rightarrow\infty$). Modern transient-astronomy methodology offers a principled intermediate path: treating the unknown historical detection threshold $S_{\rm th}$ as a nuisance parameter with a broad prior and marginalizing over it.
+
+Formally, the marginalized likelihood for the Hobart 2010--2014 data given H5 model parameters $(\lambda,T)$ is
+\begin{equation}
+P(D_{\rm H}\mid\lambda,T)
+=
+\int_0^\infty
+P(D_{\rm H}\mid\lambda,T,S_{\rm th})\,
+p(S_{\rm th})\,
+dS_{\rm th},
+\label{eq:marg_sth}
+\end{equation}
+where $P(D_{\rm H}\mid\lambda,T,S_{\rm th})$ is the conditional likelihood given a specific threshold. For a sharp detection model, this takes the form
+\begin{equation}
+P(D_{\rm H}\mid\lambda,T,S_{\rm th})
+=
+\begin{cases}
+\exp(-\lambda\,T_H) \quad & \text{if } S_{\rm th}\leq S_{\rm Wow},\\
+1 \quad & \text{if } S_{\rm th}>S_{\rm Wow},
+\end{cases}
+\label{eq:cond_sth}
+\end{equation}
+where $T_H=4.75$~d is the Hobart session span and $S_{\rm Wow}\geq256$~Jy is the Wow! flux-density lower bound. The first case corresponds to the transparent selection function S1 (the survey was sensitive enough to detect a Wow-like event), and the second to the opaque selection S2 (the survey was not). One possible prior for a scale parameter of unknown order is the log-uniform (Jeffreys) prior, $p(S_{\rm th})\propto1/S_{\rm th}$ over a broad interval $[S_{\min},S_{\max}]$. The log-uniform choice is a modelling assumption, and the marginalized likelihood depends on the adopted bounds $S_{\min}$ and $S_{\max}$.
+
+Under this prior, the integral in Equation~(\ref{eq:marg_sth}) evaluates to
+\begin{equation}
+P(D_{\rm H}\mid\lambda,T)
+=
+\frac{
+\ln(S_{\rm Wow}/S_{\min})\,e^{-\lambda T_H}
++\ln(S_{\max}/S_{\rm Wow})
+}
+{\ln(S_{\max}/S_{\min})},
+\label{eq:marg_result}
+\end{equation}
+which smoothly interpolates between the S1 limit ($e^{-\lambda T_H}$, recovered when $S_{\max}\rightarrow S_{\rm Wow}$) and the S2 limit (unity, recovered when $S_{\min}\rightarrow S_{\rm Wow}$). The marginalized likelihood is a weighted average over all plausible thresholds, with the relative weight of the transparent and opaque regimes set by the prior support on each side of $S_{\rm Wow}$.
+
+This approach has direct precedent in contemporary transient astronomy. In Fast Radio Burst population inference, the CHIME/FRB survey characterizes its multi-dimensional selection function through large-scale synthetic-injection campaigns and marginalizes over residual calibration uncertainties \citep{amiri2021}. In gravitational-wave astronomy, the LIGO--Virgo--KAGRA collaboration uses injection-recovery pipelines to empirically map the detection probability as a function of source parameters and then marginalizes over the resulting selection-function uncertainty when inferring population hyperparameters \citep{mandel2019,abbott2023_pop}. The general statistical framework---an inhomogeneous Poisson process likelihood in which detection thresholds and completeness are treated as nuisance parameters with explicit priors---is now standard methodology for recovering unbiased astrophysical parameters from censored transient surveys.
+
+We do not evaluate Equation~(\ref{eq:marg_result}) numerically here because the prior boundaries $S_{\min}$ and $S_{\max}$ require physical specification (system noise floor, historical receiver characteristics) that the surviving archive does not provide. The marginalization framework is presented instead as the methodological direction that would allow the 114.1-h Hobart exposure to contribute to the H5 likelihood without either discarding it entirely (as in the conservative treatment adopted throughout this paper) or converting it into an unverified null detection (which would assume $S_{\rm th}\ll S_{\rm Wow}$). Specifying the prior bounds and completing the integral is a task for future work in which either the historical detection metadata are recovered or an injection-recovery calibration of the archived data is performed.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 9
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Cross-Hypothesis Comparison and Statistical Identifiability}
+\label{sec:comparison}
+
+\subsection{Why the Five Models Cannot Be Given a Common Posterior}
+
+For two hypotheses, posterior odds can be written as
+\begin{equation}
+\frac{P(H_i\mid D)}{P(H_j\mid D)}
+=
+\frac{P(D\mid H_i)}{P(D\mid H_j)}
+\frac{P(H_i)}{P(H_j)}.
+\label{eq:odds}
+\end{equation}
+
+The expression is formally simple, but its validity depends on specifying all of its ingredients consistently.
+
+The five hypotheses considered here do not occupy the same inferential state. H1 is represented primarily at the mechanism level; the proposed H2 candidates are excluded on geometric grounds (Section~\nameref{sec:h2}), with kinematic and physical requirements disfavoring known cometary mechanisms; H3 has a strong physical brightness-temperature constraint conditional on source geometry but no empirically grounded population model for transient \ion{H}{1} amplification; H4 has a conditional radiometric relation with an additional frequency-coincidence tension but no technological population prior; and H5 has a defined stochastic parameter likelihood but incomplete information for incorporating the later Hobart campaign.
+
+%% ----------------------------------------------------------------------
+%% TABLE 5
+%% Built with table* + tabularx rather than deluxetable, so none of the
+%% class's rotation machinery is involved and the table cannot be set
+%% sideways. X columns share the leftover width automatically, so no
+%% manual width budget is needed.
+%% ----------------------------------------------------------------------
+\begin{table*}[htbp]
+\centering
+\caption{Hypothesis identifiability matrix.}
+\label{tab:identifiability}
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{
+    @{}
+    >{\raggedright\arraybackslash}p{0.10\textwidth}
+    >{\raggedright\arraybackslash}p{0.16\textwidth}
+    >{\raggedright\arraybackslash}p{0.17\textwidth}
+    >{\raggedright\arraybackslash}p{0.16\textwidth}
+    >{\raggedright\arraybackslash}p{0.20\textwidth}
+    >{\raggedright\arraybackslash}p{0.11\textwidth}
+    @{}
+}
+\toprule
+\textbf{Hypothesis} &
+\textbf{Observational evidence} &
+\textbf{Physical constraint} &
+\textbf{Likelihood} &
+\textbf{Selection / prior} &
+\textbf{Status} \\
+\midrule
+H1 RFI
+& Transit and spectral morphology
+& Mechanism-dependent
+& Not identified
+& Mechanism-dependent; prior not specified
+& Unresolved
+\\
+H2 Comet
+& Named candidates excluded (geometric); emission mechanism unvalidated (physical, not geometric)
+& Two named candidates excluded; generic mechanism lacks validation, not geometrically excluded
+& Not applicable
+& Not limiting; prior not specified
+& Candidates excluded
+\\
+H3 \ion{H}{1}
+& Flux and angular-size bounds; HI4PI non-detection at $-74$~km\,s$^{-1}$
+& $\tbeq \gtrsim 1.72\times10^4$~K (compact); persistent thermal excluded (HI4PI, Fig.~\ref{fig:hi4pi})
+& Physical bound only
+& Not limiting; prior not specified
+& Physical constraint
+\\
+H4 Power beam
+& Flux and frequency constraints
+& Conditional
+& Conditional
+& Not limiting; prior not specified
+& Conditional feasibility
+\\
+H5 Repeater
+& Historical detection and follow-up
+& Poisson process
+& $1.78\%$ verified from released chains; $1.58\%$ (emulator)
+& 2010--14 unresolved; model-dependent prior
+& Partial likelihood
+\\
+\bottomrule
+\end{tabular}
+
+\vspace{3pt}
+\begin{minipage}{0.98\textwidth}
+\footnotesize
+\textit{Note.}---The matrix summarizes the highest inferential level
+supported by the frozen evidence. ``Not identified'' means that the
+evidence package does not uniquely specify the corresponding
+statistical object; it does not mean that the physical hypothesis is
+impossible.
+\end{minipage}
+\end{table*}
+
+Table~\ref{tab:identifiability} therefore does not rank the hypotheses. Instead, it records the mathematical object that can legitimately be assigned to each one. A brightness-temperature bound, an engineering requirement, and a stochastic likelihood are different kinds of results and cannot be normalized into a common posterior without additional assumptions.
+
+\subsection{Selection-Function Dependence}
+
+The H5 case makes the importance of selection functions quantitative rather than declarative. If a historical observing campaign has a known threshold and a verified null outcome, its exposure can constrain the event rate. If the threshold and candidate-selection process are missing, the same exposure cannot automatically be interpreted as equivalent statistical evidence. Section~\nameref{sec:seldemo} turns this asymmetry into a measurement: the same $114.1$-h archived exposure yields likelihood updates ranging from no update (unity under the opaque treatment) to a factor of $2.2$ at the maximum-likelihood peak and beyond two orders of magnitude across the rate parameter (transparent treatment), and the verified published-chain progression $32.3\%\rightarrow3.3\%\rightarrow1.78\%$ shows how strongly the published H5 inference itself responds to each added follow-up selection function.
+
+This asymmetry is especially consequential for the 2010--2014 Hobart campaign. Treating its entire exposure as zero detections would produce a strong likelihood penalty for frequently repeating signals. But that penalty would depend on an assumed detection process rather than on a preserved empirical record of what the historical search actually classified as a detection.
+
+The conservative alternative is to preserve the information that is known---the pointings and observing epochs---and to stop the likelihood calculation where the missing selection information becomes necessary.
+
+\subsection{Why a Five-Way Posterior Is Not Reported}
+
+The present study therefore does not report a five-way posterior probability vector. Such a vector would require comparable likelihoods and priors for H1 through H5. The frozen evidence does not provide them.
+
+This conclusion is not equivalent to saying that Bayesian reasoning is impossible. Bayesian inference remains useful within individual hypothesis models where the observation process is sufficiently specified. The H5 reconstruction is an example. The point is instead that the available evidence does not support extending one identifiable likelihood framework to all five hypotheses without introducing assumptions that are not empirically grounded in the surviving record.
+
+Likewise, heuristic scores that assign arbitrary numerical weights to physical plausibility, archival status, or qualitative arguments would not solve the problem. They would replace missing probability models with subjective scoring rules and would create numerical precision without a corresponding evidential basis.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 10
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Principal Findings}
+
+The analysis produces several results that are individually quantitative even though they cannot be combined into a single hypothesis posterior.
+
+First, the circular-compact brightness-temperature bound ($1.72\times10^4$~K nominal, $1.17\times10^4$~K floor) rules out spontaneous cold-\ion{H}{1} thermal emission; elongation, line-width, and HI4PI qualifications are developed in Secs.~\nameref{sec:h3_geometry} and \nameref{sec:hi4pi}.
+
+Second, the Kipping--Gray calculation verifies exactly against the released chains ($32.3\%$/$3.3\%$/$1.78\%$ maxima); the independent emulator peaks at $1.58\%$ and serves only relative comparisons. These are parameter-likelihood maxima, not probabilities for H5.
+
+Third, telescope exposure without preserved selection criteria is not a null result: the same $114.1$-h Hobart exposure (a first-to-last-spectrum upper limit on usable time) changes the maximum likelihood by a factor of $2.2$ and the evidence by $0.65$ depending solely on which of the two limiting selection-function scenarios is adopted (Sec.~\nameref{sec:seldemo}).
+
+Fourth, the proposed 266P/Christensen and 335P/Gibbs explanations are excluded by our event-epoch ephemeris calculation (Sec.~\ref{sec:h2_ephem}), with the cometary emission mechanism unvalidated at the required flux level.
+
+Fifth, the H3 bound is geometry-conditional (Sec.~\nameref{sec:h3}): elongation reaches WNM temperatures, but the single-channel width and the HI4PI non-detection ($\leq0.10$~K at all ten sampled positions vs $\sim84$--$163$~K predicted across the tested elongations; Fig.~\ref{fig:hi4pi}) exclude a persistent thermal filament across the tested elongation range, leaving transient non-thermal scenarios.
+
+Sixth, H4 can be constrained radiometrically, but its interpretation is complicated by a frequency coincidence: the signal appears at 1420~MHz, the Schelling-point frequency for intentional interstellar communication, whereas the engineering literature considered here does not identify 1420~MHz as a preferred power-beaming frequency. The population of possible technological transmitters is also unknown.
+
+\subsection{What the Analysis Does Not Establish}
+
+Several negative conclusions are equally important. The analysis does not establish that the Wow! signal was an \ion{H}{1} maser, a technosignature, or terrestrial interference. It does not provide a posterior probability for any individual surviving hypothesis. It does not interpret the 2010--2014 Hobart observations as a confirmed null search, although a Bayesian marginalization framework is identified as the methodological path for incorporating them (Section~\nameref{sec:h5_bayes_marg}). And it does not claim that the independent H5 calculation changes the qualitative scientific status of the stochastic-repeater hypothesis.
+
+The distinction between ``not established'' and ``ruled out'' is particularly important for historical events. A missing measurement cannot legitimately be replaced by the value that would be most convenient for a hypothesis test.
+
+\subsection{Provenance as a Scientific Variable}
+
+The Wow! case illustrates a general issue in archival radio astronomy and SETI. When an isolated transient is not redetected, subsequent investigators may have access to substantial amounts of historical material while lacking the metadata that determined how the original observations were interpreted. The resulting archive can therefore be rich in operational information but poor in statistical identifiability.
+
+This problem is not solved by applying increasingly sophisticated models to increasingly incomplete data. Sophisticated inference remains conditional on the observation process being specified well enough for the model-to-data mapping to be evaluated. Provenance is consequently part of the scientific content of an archival dataset, not merely an administrative record of where a file came from.
+
+\subsection{Implications for Future Observations}
+
+The present analysis identifies the types of information that would most improve interpretation of comparable events. For transient searches, preservation of raw data should be accompanied by the detection threshold, sensitivity calibration, RFI masks, candidate lists, candidate-rejection criteria, observing windows, and search software or sufficiently detailed algorithmic specifications. A future null result with these properties would retain a reconstructable selection function and could therefore be incorporated into a quantitative likelihood.
+
+For the Wow! signal itself, new observations would be most decisive if they produced a repeat event with sufficient spectral, temporal, spatial, and auxiliary information to discriminate among the surviving physical mechanisms. The present paper does not attempt to assign probabilities to future observing programs; it identifies instead the information needed for those observations to become statistically interpretable.
+
+%% ══════════════════════════════════════════════════════════════════════
+%% SECTION 11
+%% ══════════════════════════════════════════════════════════════════════
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have performed a bounded forensic reassessment of the surviving evidence associated with the 1977 Wow! signal. Rather than force heterogeneous evidence into a single numerical ranking, we have separated direct observations, reconstructions, physical constraints, parameter likelihoods, and population inference.
+
+The principal quantitative physical result is that the frozen Arecibo~II constraints imply, for compact circular geometry, $\tbeq\geq1.72\times10^4$~K ($1.17\times10^4$~K floor), requiring non-thermal \ion{H}{1} emission; declination elongation could reach warm-neutral-medium temperatures, but the HI4PI non-detection (Sec.~\ref{sec:hi4pi}) and the single-channel width leave only transient non-thermal scenarios across the tested elongation range.
+
+For the stochastic repeater, the published $1.78\%$ maximum is reproduced from the released chains, with a relative-only $1.58\%$ emulator; the unresolved 2010--2014 Hobart selection function shifts the emulator peak from $5.6\%$ to $2.5\%$ (evidence factor $0.65$; computed against the $114.1$-h upper-limit span), and a threshold-marginalization framework (Sec.~\ref{sec:h5_bayes_marg}) is the principled path forward. The result neither establishes nor excludes H5.
+
+The proposed 266P/Christensen and 335P/Gibbs explanations are excluded by our event-epoch ephemeris calculation (Sec.~\ref{sec:h2_ephem}; cross-checked against the original Big Ear team rebuttal), with the cometary emission mechanism unvalidated and 266P water-inactive at $r=4.73$~AU. H4 satisfies conditional radiometry with a prior-dependent 1420-MHz coincidence tension.
+
+The resulting conclusion is therefore not a probability ranking of the surviving hypotheses. The evidence supports strong hypothesis-specific constraints---including the candidate-specific exclusion of H2---but it does not provide a common set of identifiable likelihoods, selection functions, and population priors from which a defensible multi-hypothesis Bayesian posterior could be calculated. Preserving that boundary is itself a scientific result. In historical astrophysics, establishing what the surviving record can support---and refusing to infer what it cannot---is an essential part of rigorous inference.
+
+\section{Data and Code Availability} \label{sec:availability}
+
+The frozen evidence package underlying this article comprises (i) the transcribed Big Ear record and the Arecibo~II reconstruction \citep{mendez2025}, from which the flux, angular-size, duration, and frequency constraints of Section~\nameref{sec:h3} are taken; (ii) the public Kipping--Gray code and chain release \citep[\texttt{github.com/davidkipping/wow}]{kipping2022code}, from which the verification of Section~\nameref{sec:h5_verify} is computed; and (iii) the 2010--2014 Hobart archive supplied by Simon Ellingsen (University of Tasmania), inventoried with its documented gaps (session spans, pointings, and spectral configurations are preserved; detection thresholds, candidate-generation procedures, and outcome records are not). The archive was shared with the authors for this analysis; inquiries about access should be directed to the authors.
+% HUMAN: confirm with Simon Ellingsen that he consents to being named as the archive donor in print and to the access wording above before submitting.
+All numerical results in Sections~\nameref{sec:h3}--\nameref{sec:seldemo} are reproduced by the archived analysis scripts (headline numbers in \texttt{main\_numbers.json}; figure-generation scripts, one per figure; the HI4PI values in \texttt{hi4pi\_extended.json}); the selection-function demonstration uses only the archived session-span table and the released chain files, and its assumptions are stated in full in Section~\nameref{sec:seldemo}. All scripts and extracted values are archived at Zenodo (DOI to be inserted at acceptance).
+
+\begin{acknowledgments}
+We acknowledge the pioneering work of John Kraus, Jerry Ehman, and the staff and volunteers of the Ohio State University Radio Observatory who operated the Big Ear telescope. We also recognize the contributions of Simon Ellingsen and Robert Gray to historical follow-up observations at the Mount Pleasant Radio Observatory and to the preservation of archival material, and we thank Simon Ellingsen for supplying the 2010--2014 Hobart archive analyzed here.
+AI disclosure: an AI coding agent (OpenCode, Muse Spark model, used October 2026 via API) assisted with numerical recomputation scripts, literature and reference verification, figure regeneration, and drafting of text revisions; all outputs were reviewed, verified against primary sources, and approved by the authors, who retain full accountability for the content.
+\end{acknowledgments}
+
+\facilities{Big Ear (Ohio State University Radio Observatory), Hobart 26-m (Mount Pleasant Radio Observatory, University of Tasmania)}
+
+\software{NumPy \citep{numpy2020}, Matplotlib \citep{matplotlib2007}}
+
+\bibliographystyle{aasjournalv7}
+\bibliography{references}
+
+\end{document}

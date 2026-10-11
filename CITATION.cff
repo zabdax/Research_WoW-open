@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: "Forensic Bounds and Identifiability Limits on the Origin of the Wow! Signal — reproducibility package"
+version: 1.0.0
+authors:
+  - family-names: Shaad
+    given-names: Zubayer Hasan
+    affiliation: "Government Tolaram College, Bangladesh"
+  - family-names: Khan
+    given-names: S M Shadman
+    affiliation: "Govt. Sundarban Adarsha College, Bangladesh"
+license: MIT
+keywords:
+  - Wow! signal
+  - SETI
+  - technosignatures
+  - radio astronomy
+  - reproducibility

@@ -1,0 +1,17 @@
+# Keep the open release lean and secret-free.
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.log
+*.aux
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+.DS_Store
+# Large / private data never belongs here (GitHub 100 MB cap; donor archive stays private).
+*.fits
+*.tiff
+*.tif

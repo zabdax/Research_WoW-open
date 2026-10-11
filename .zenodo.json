@@ -1,0 +1,11 @@
+{
+  "title": "Forensic Bounds and Identifiability Limits on the Origin of the Wow! Signal — reproducibility package",
+  "description": "Manuscript sources, figures, analysis scripts, and extracted values for Shaad & Khan, 'The Wow! Signal: Exploring the Boundaries of Evidence and Inference' (submitted to the International Journal of Astrobiology). Regenerates every headline number and figure from frozen public inputs; see README.md reproduce steps. Excludes the private Hobart donor archive (raw data, thresholds, candidate lists).",
+  "creators": [
+    {"name": "Shaad, Zubayer Hasan", "affiliation": "Government Tolaram College, Bangladesh"},
+    {"name": "Khan, S M Shadman", "affiliation": "Govt. Sundarban Adarsha College, Bangladesh"}
+  ],
+  "keywords": ["Wow! signal", "SETI", "technosignatures", "radio astronomy", "reproducibility"],
+  "license": "mit",
+  "version": "v1.0.0"
+}
