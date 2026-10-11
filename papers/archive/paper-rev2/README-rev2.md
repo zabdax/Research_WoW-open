@@ -47,9 +47,8 @@ Base for edits: `ija_manuscript/manuscript.tex`. Build: TinyTeX TeX Live 2026, 2
 9. **Tables/equations:** Table 5 merged Selection+Population-prior columns, `\small` (1.16pt overfull remains, cosmetic); EIRP equation split over 3 lines (98pt overfull eliminated). Number format already uniform ($1.72\times10^4$). Fig. 7 legend (lower-left) vs red annotation (top-right): no overlap in current build, unchanged. All figures DejaVu Sans (D/E/F use matplotlib defaults = sans).
 10. **Acceptance exports:** `scripts/export_acceptance.py` → `ija_manuscript/eps/fig1–7.eps` + `ija_manuscript/tiff/fig1–7.tiff` (600 dpi), all headers verified. Note: rev2 `reproduce_figures_de.py` points FIGDIR at paper-rev1 (pre-existing); the export hooks by basename so review PDFs were written there — byte-deterministic, no content change.
 
-## STILL HUMAN (unchanged)
+## Zenodo record — MINTED 2026-10-11: 10.5281/zenodo.23301440 (concept: 10.5281/zenodo.23301439). Cite the version DOI in the paper. The "(DOI to be inserted)" placeholders are resolved in both manuscripts.
 - Submit at https://mc.manuscriptcentral.com/submit_ija; APC waiver at submission; competing-interests + keywords + ORCID + authority at ScholarOne.
-- Zenodo DOI for the reproducibility scripts; cite it.
 - Preprint (allowed); arXiv category author choice.
 
 ## FIX ROUND 2, 2026-10-10 — second supervisor pre-submission list (all applied, build clean)
