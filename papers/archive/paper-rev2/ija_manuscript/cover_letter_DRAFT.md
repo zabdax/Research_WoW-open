@@ -21,7 +21,7 @@ in the manuscript (Secs. 3.1 and 6.1), and the affected sections are
 identified there.
 
 Reproducibility: all analysis scripts and extracted values are archived at
-Zenodo 10.5281/zenodo.23301440 (v1.0.0 archived 2026-10-11); figures are generated
+Zenodo 10.5281/zenodo.23301789 (current record — use this in the paper); figures are generated
 directly from the frozen inputs by the archived scripts.
 
 Competing interests: the authors declare none. [HUMAN: confirm]

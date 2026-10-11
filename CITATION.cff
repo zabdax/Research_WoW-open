@@ -1,6 +1,7 @@
 cff-version: 1.2.0
 title: "Forensic Bounds and Identifiability Limits on the Origin of the Wow! Signal — reproducibility package"
 version: 1.0.0
+doi: 10.5281/zenodo.23301789
 authors:
   - family-names: Shaad
     given-names: Zubayer Hasan
