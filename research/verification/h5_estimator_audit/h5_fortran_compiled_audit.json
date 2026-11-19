@@ -1,0 +1,33 @@
+{
+  "workflow": "https://github.com/zabdax/Research_WoW-open/actions/runs/44552605600",
+  "workflow_commit": "a97f487b47ff9736eca3f5f9e9350d2db1e0336a",
+  "workflow_conclusion": "success",
+  "runner": "GitHub-hosted Windows Server 2025 (Azure)",
+  "compiler": "GNU Fortran (Rev7, Built by MSYS2 project) 16.2.0",
+  "compiled_unchanged_source": true,
+  "source_sha256_on_runner": "4dbc201b0017af74aa46cd189fab06e37cd7d884ed8520c3117c4ce0dbe1e0d7",
+  "compile_flags": ["-O2", "-Wall", "-Wextra"],
+  "compile_result": "success with warnings: nonconforming tab characters and unused Tdraw/Ldraw dummy arguments",
+  "diagnostic": {
+    "cell_indices_k1_k2": [15, 83],
+    "loop_bounds_modified_in_diagnostic_copy_only": true,
+    "monte_carlo_branch_selected": true,
+    "replicates": 30,
+    "T_days": 0.0019717098030387114,
+    "lambda_per_day": 2.6371452033507681,
+    "p_hat_values": [0.20512820512820512,0.21052631578947367,0.22857142857142856,0.21052631578947367,0.23529411764705882,0.26923076923076922,0.25925925925925924,0.2,0.33333333333333331,0.24242424242424243,0.25806451612903225,0.25806451612903225,0.25925925925925924,0.14285714285714285,0.25,0.25806451612903225,0.21621621621621623,0.25,0.30434782608695654,0.33333333333333331,0.26666666666666666,0.21052631578947367,0.23529411764705882,0.35294117647058826,0.21621621621621623,0.29166666666666669,0.25,0.45454545454545453,0.33333333333333331,0.22222222222222221],
+    "mean_p_hat": 0.2585971160956976,
+    "sample_standard_deviation": 0.05913943324550133,
+    "minimum_p_hat": 0.14285714285714285,
+    "maximum_p_hat": 0.45454545454545453,
+    "exact_interval_union_probability": 0.31525656445364697,
+    "released_output_grid_probability": 0.5,
+    "interpretation": "A stochastic, one-cell diagnostic, not a full reproduction of output_grid.dat or the MCMC chains."
+  },
+  "artifact": {
+    "id": 14543588416,
+    "name": "h5-fortran-compile-audit",
+    "url": "https://github.com/zabdax/Research_WoW-open/actions/runs/44552605600/artifacts/14543588416",
+    "sha256": "b4a14d2e0b42ff4a4a1c372648b1fa653267698aeb8fcc5aa7243b6415f3bbd1"
+  }
+}
