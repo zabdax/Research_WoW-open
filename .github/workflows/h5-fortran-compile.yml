@@ -38,13 +38,20 @@ jobs:
           sha256sum data/kipping_master_dl/wow-main/wow.f90 | tee audit/source-sha256.txt
           gfortran -O2 -Wall -Wextra data/kipping_master_dl/wow-main/wow.f90 -o audit/wow_full.exe 2>&1 | tee audit/compile.log
 
-      - name: Run the released-grid maximum cell
+      - name: Compile and repeat the released-grid maximum cell
         run: |
           set -euo pipefail
           sed -E 's/DO k1=1,150/DO k1=15,15/; s/DO k2=1,160/DO k2=83,83/' data/kipping_master_dl/wow-main/wow.f90 > audit/wow_cell.f90
           gfortran -O0 -g -fcheck=all -fbacktrace audit/wow_cell.f90 -o audit/wow_cell.exe 2>&1 | tee audit/cell-compile.log
-          ./audit/wow_cell.exe | tee audit/one-cell-stdout.log
-          cat output.log | tee audit/one-cell-output.log
+          printf 'replicate,T_days,lambda_per_day,p_hat,precision,ngaveup\n' > audit/replicate_results.csv
+          for rep in $(seq 1 30); do
+            rm -f output.log
+            ./audit/wow_cell.exe > "audit/run-$rep.txt"
+            read -r T lambda p precision ngaveup < output.log
+            printf '%s,%s,%s,%s,%s,%s\n' "$rep" "$T" "$lambda" "$p" "$precision" "$ngaveup" >> audit/replicate_results.csv
+          done
+          cat audit/replicate_results.csv
+          cp output.log audit/last-output.log
 
       - uses: actions/upload-artifact@v4
         with:
@@ -52,4 +59,3 @@ jobs:
           if-no-files-found: error
           path: |
             audit/
-            output.log
