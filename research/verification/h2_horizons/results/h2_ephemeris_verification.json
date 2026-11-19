@@ -1,0 +1,341 @@
+{
+  "source": "https://ssd.jpl.nasa.gov/api/horizons.api",
+  "retrieved_utc": "2026-11-19T12:58:57.284606+00:00",
+  "event_epoch_utc": "1977-08-16 03:16:06 UTC",
+  "site": {
+    "latitude_deg": 40.00277777777778,
+    "longitude_east_deg": -83.03916666666666,
+    "elevation_km": 0.26
+  },
+  "comparison_coordinates": {
+    "arecibo_ii_table4_positive_horn": {
+      "ra_hms": "19 25 02",
+      "dec_dms": "-26 57 18"
+    },
+    "arecibo_ii_table4_negative_horn": {
+      "ra_hms": "19 27 55",
+      "dec_dms": "-26 57 13"
+    },
+    "public_summary_ra_only": [
+      "19 25 26",
+      "19 28 18"
+    ]
+  },
+  "objects": {
+    "266P": {
+      "requested_name": "266P/Christensen",
+      "lookup_spkid": "1002425",
+      "horizons_command": "DES=266P;CAP",
+      "lookup_file": "data\\horizons_lookup_266P.json",
+      "lookup_sha256": "76d201390481631db4923a1248352f1ea127069787cee2cfc7dceefe88df7d70",
+      "lookup_result": [
+        {
+          "spkid": "1002425",
+          "type": "comet (integrated barycenter)",
+          "alias": [
+            "2012 P1",
+            "2006 U5",
+            "4000266"
+          ],
+          "name": "Christensen",
+          "pdes": "266P"
+        }
+      ],
+      "queries": {
+        "geocentric": {
+          "file": "data\\horizons_266P_19770816.txt",
+          "sha256": "1d3c48a47dc7129ccd19c741dbe7eabbbfbdd148741af283b4f7dd53d2b1af06",
+          "parsed": {
+            "cells": [
+              "1977-Aug-16 03:16:06.000",
+              "",
+              "",
+              "18 31 35.316867",
+              "-27 21 44.33610",
+              "4.733522258200",
+              "-0.5236862",
+              "3.98005860605583",
+              "19.2403893",
+              "4.068",
+              "0.235",
+              "4.069",
+              "0.217",
+              "1.268",
+              "2.7790719",
+              "4.075",
+              "0.1908216",
+              "276.03807",
+              "64.491284",
+              ""
+            ],
+            "utc": "1977-Aug-16 03:16:06.000",
+            "ra_j2000_hms": "18 31 35.316867",
+            "dec_j2000_dms": "-27 21 44.33610",
+            "ra_deg": 277.89715361249995,
+            "dec_deg": -27.362315583333334,
+            "r_au": 4.7335222582,
+            "rdot_km_s": -0.5236862,
+            "delta_au": 3.98005860605583,
+            "deltadot_km_s": 19.2403893,
+            "ra_3sigma_arcsec": 4.068,
+            "dec_3sigma_arcsec": 0.235,
+            "pos_smaa_3sigma_arcsec": 4.069,
+            "pos_smia_3sigma_arcsec": 0.217,
+            "pos_theta_deg": 1.268,
+            "pos_area_3sigma_arcsec2": 2.7790719,
+            "pos_rss_3sigma_arcsec": 4.075,
+            "sky_motion_arcsec_per_hour": 11.449296,
+            "sky_motion_position_angle_deg": 276.03807,
+            "relative_velocity_angle_deg": 64.491284
+          }
+        },
+        "big_ear_topocentric": {
+          "file": "data\\horizons_266P_19770816_topocentric.txt",
+          "sha256": "8ac7acd6d54f75df45d0db260b3b129770a2f391d625f8a87e5a0c81355d5018",
+          "parsed": {
+            "cells": [
+              "1977-Aug-16 03:16:06.000",
+              "",
+              "",
+              "18 31 35.288949",
+              "-27 21 46.35154",
+              "4.733522258173",
+              "-0.5236862",
+              "3.98004282648144",
+              "19.3108333",
+              "4.068",
+              "0.235",
+              "4.069",
+              "0.217",
+              "1.268",
+              "2.7791292",
+              "4.075",
+              "0.1980926",
+              "276.03725",
+              "63.732015",
+              ""
+            ],
+            "utc": "1977-Aug-16 03:16:06.000",
+            "ra_j2000_hms": "18 31 35.288949",
+            "dec_j2000_dms": "-27 21 46.35154",
+            "ra_deg": 277.8970372875,
+            "dec_deg": -27.36287542777778,
+            "r_au": 4.733522258173,
+            "rdot_km_s": -0.5236862,
+            "delta_au": 3.98004282648144,
+            "deltadot_km_s": 19.3108333,
+            "ra_3sigma_arcsec": 4.068,
+            "dec_3sigma_arcsec": 0.235,
+            "pos_smaa_3sigma_arcsec": 4.069,
+            "pos_smia_3sigma_arcsec": 0.217,
+            "pos_theta_deg": 1.268,
+            "pos_area_3sigma_arcsec2": 2.7791292,
+            "pos_rss_3sigma_arcsec": 4.075,
+            "sky_motion_arcsec_per_hour": 11.885556000000001,
+            "sky_motion_position_angle_deg": 276.03725,
+            "relative_velocity_angle_deg": 63.732015
+          }
+        }
+      },
+      "separations_from_arecibo_ii_horns": {
+        "arecibo_ii_table4_positive_horn": {
+          "angular_separation_arcmin": {
+            "geocentric": 713.3612538389361,
+            "big_ear_topocentric": 713.3668031198599
+          },
+          "delta_ra_seconds_time": {
+            "geocentric": -3206.6831330000105,
+            "big_ear_topocentric": -3206.711051000002
+          },
+          "delta_dec_arcmin": {
+            "geocentric": -24.438935000000157,
+            "big_ear_topocentric": -24.47252566666691
+          }
+        },
+        "arecibo_ii_table4_negative_horn": {
+          "angular_separation_arcmin": {
+            "geocentric": 751.770683428315,
+            "big_ear_topocentric": 751.7760791521195
+          },
+          "delta_ra_seconds_time": {
+            "geocentric": -3379.683133000017,
+            "big_ear_topocentric": -3379.7110510000084
+          },
+          "delta_dec_arcmin": {
+            "geocentric": -24.522268333333344,
+            "big_ear_topocentric": -24.555859000000098
+          }
+        }
+      },
+      "topocentric_minus_geocentric": {
+        "angular_parallax_arcsec": 2.049468313954912,
+        "delta_ra_seconds_time": -0.02791799999158684,
+        "delta_dec_arcsec": -2.015440000005242
+      },
+      "public_summary_ra_only_sensitivity": {
+        "public_ra_hms": "19 25 26",
+        "delta_ra_seconds_time_geocentric": -3230.683133000016,
+        "delta_ra_seconds_time_topocentric": -3230.7110510000075,
+        "note": "The cited public summary provides RA only; no two-dimensional angular separation is inferred from it."
+      }
+    },
+    "335P": {
+      "requested_name": "335P/Gibbs",
+      "lookup_spkid": "1003007",
+      "horizons_command": "DES=335P;CAP",
+      "lookup_file": "data\\horizons_lookup_335P.json",
+      "lookup_sha256": "3013b82e6f20c18e148c0276a8dbe5f0ddca00153eedd7943bd287bee6f5bed1",
+      "lookup_result": [
+        {
+          "alias": [
+            "2016 A9",
+            "2008 Y2",
+            "4000335"
+          ],
+          "name": "Gibbs",
+          "pdes": "335P",
+          "spkid": "1003007",
+          "type": "comet (integrated barycenter)"
+        }
+      ],
+      "queries": {
+        "geocentric": {
+          "file": "data\\horizons_335P_19770816.txt",
+          "sha256": "206328ed41773c6cbf745c644f3518329c9485e2f1d045bf9396a31b74c5b876",
+          "parsed": {
+            "cells": [
+              "1977-Aug-16 03:16:06.000",
+              "",
+              "",
+              "18 39 12.561108",
+              "-29 37 00.98844",
+              "4.563246069120",
+              "5.6740533",
+              "3.79352642148442",
+              "24.8662006",
+              "9.342",
+              "3.942",
+              "10.062",
+              "1.254",
+              "-21.988",
+              "39.63",
+              "10.139",
+              "0.2223846",
+              "284.37840",
+              "67.701012",
+              ""
+            ],
+            "utc": "1977-Aug-16 03:16:06.000",
+            "ra_j2000_hms": "18 39 12.561108",
+            "dec_j2000_dms": "-29 37 00.98844",
+            "ra_deg": 279.80233795,
+            "dec_deg": -29.616941233333336,
+            "r_au": 4.56324606912,
+            "rdot_km_s": 5.6740533,
+            "delta_au": 3.79352642148442,
+            "deltadot_km_s": 24.8662006,
+            "ra_3sigma_arcsec": 9.342,
+            "dec_3sigma_arcsec": 3.942,
+            "pos_smaa_3sigma_arcsec": 10.062,
+            "pos_smia_3sigma_arcsec": 1.254,
+            "pos_theta_deg": -21.988,
+            "pos_area_3sigma_arcsec2": 39.63,
+            "pos_rss_3sigma_arcsec": 10.139,
+            "sky_motion_arcsec_per_hour": 13.343076,
+            "sky_motion_position_angle_deg": 284.3784,
+            "relative_velocity_angle_deg": 67.701012
+          }
+        },
+        "big_ear_topocentric": {
+          "file": "data\\horizons_335P_19770816_topocentric.txt",
+          "sha256": "f9d92bdabf4e7ae9e86afe7bd9cad04ddfd709a6e09c8ebd1b7a1588db0b8f5d",
+          "parsed": {
+            "cells": [
+              "1977-Aug-16 03:16:06.000",
+              "",
+              "",
+              "18 39 12.535621",
+              "-29 37 03.14103",
+              "4.563246069393",
+              "5.6740533",
+              "3.79351199227341",
+              "24.9250766",
+              "9.342",
+              "3.943",
+              "10.062",
+              "1.254",
+              "-21.988",
+              "39.63",
+              "10.140",
+              "0.2299709",
+              "284.08343",
+              "67.066942",
+              ""
+            ],
+            "utc": "1977-Aug-16 03:16:06.000",
+            "ra_j2000_hms": "18 39 12.535621",
+            "dec_j2000_dms": "-29 37 03.14103",
+            "ra_deg": 279.80223175416666,
+            "dec_deg": -29.617539175,
+            "r_au": 4.563246069393,
+            "rdot_km_s": 5.6740533,
+            "delta_au": 3.79351199227341,
+            "deltadot_km_s": 24.9250766,
+            "ra_3sigma_arcsec": 9.342,
+            "dec_3sigma_arcsec": 3.943,
+            "pos_smaa_3sigma_arcsec": 10.062,
+            "pos_smia_3sigma_arcsec": 1.254,
+            "pos_theta_deg": -21.988,
+            "pos_area_3sigma_arcsec2": 39.63,
+            "pos_rss_3sigma_arcsec": 10.14,
+            "sky_motion_arcsec_per_hour": 13.798254,
+            "sky_motion_position_angle_deg": 284.08343,
+            "relative_velocity_angle_deg": 67.066942
+          }
+        }
+      },
+      "separations_from_arecibo_ii_horns": {
+        "arecibo_ii_table4_positive_horn": {
+          "angular_separation_arcmin": {
+            "geocentric": 625.6840286345569,
+            "big_ear_topocentric": 625.6969135283807
+          },
+          "delta_ra_seconds_time": {
+            "geocentric": -2749.438892000003,
+            "big_ear_topocentric": -2749.464379000001
+          },
+          "delta_dec_arcmin": {
+            "geocentric": -159.71647400000023,
+            "big_ear_topocentric": -159.75235050000015
+          }
+        },
+        "arecibo_ii_table4_negative_horn": {
+          "angular_separation_arcmin": {
+            "geocentric": 662.5527242264984,
+            "big_ear_topocentric": 662.5650097505288
+          },
+          "delta_ra_seconds_time": {
+            "geocentric": -2922.438892000009,
+            "big_ear_topocentric": -2922.4643790000073
+          },
+          "delta_dec_arcmin": {
+            "geocentric": -159.79980733333343,
+            "big_ear_topocentric": -159.83568383333335
+          }
+        }
+      },
+      "topocentric_minus_geocentric": {
+        "angular_parallax_arcsec": 2.1780943162177304,
+        "delta_ra_seconds_time": -0.025486999998065585,
+        "delta_dec_arcsec": -2.1525899999957687
+      },
+      "public_summary_ra_only_sensitivity": {
+        "public_ra_hms": "19 28 18",
+        "delta_ra_seconds_time_geocentric": -2945.4388919999883,
+        "delta_ra_seconds_time_topocentric": -2945.4643789999864,
+        "note": "The cited public summary provides RA only; no two-dimensional angular separation is inferred from it."
+      }
+    }
+  },
+  "caution": "Horizons formal 3-sigma errors are solution-dependent and do not capture every long-baseline or non-gravitational model uncertainty."
+}
