@@ -1,0 +1,313 @@
+{
+  "observable": "exactly one successful individual-event-covered observation window among 180; literal source process includes first post-baseline arrival",
+  "inputs": {
+    "n_days": 90,
+    "n_windows": 180,
+    "baseline_days": 2673.0,
+    "window_seconds": 72,
+    "source_code_gap_seconds": 162,
+    "primary_paper_gap_seconds": 172.37,
+    "source_grid_expanded_T_max_days": 7.970891804447273,
+    "source_grid_expanded_lambda_max_day": 280.44107633775997
+  },
+  "surfaces": {
+    "162.0": {
+      "manuscript_claimed_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          31784.783717212616
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          7.38905609893065
+        ],
+        "baseline_max_pct": 36.88433837563107,
+        "baseline_max_T_s": 182.30131418547563,
+        "baseline_max_lambda": 4.443869134799027,
+        "transparent_114p116h_max_pct": 2.4302920247143565,
+        "transparent_114p116h_grid_ratio": 0.11636024147400355,
+        "pooled_192h_max_pct": 1.4850285028094237,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "full_source_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          688685.0519042443
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.89029961761427,
+        "baseline_max_T_s": 213.60800915904548,
+        "baseline_max_lambda": 3.4092840432094835,
+        "transparent_114p116h_max_pct": 2.422824955125792,
+        "transparent_114p116h_grid_ratio": 0.09317425084096144,
+        "pooled_192h_max_pct": 1.4817369989331515,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "full_source_domain_120": {
+        "grid_shape": [
+          120,
+          120
+        ],
+        "T_s_bounds": [
+          72.0,
+          688685.0519042443
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.890460317955,
+        "baseline_max_T_s": 83.99139964184741,
+        "baseline_max_lambda": 40.16095841259498,
+        "transparent_114p116h_max_pct": 2.4316272915354658,
+        "transparent_114p116h_grid_ratio": 0.09122474465017803,
+        "pooled_192h_max_pct": 1.4867627775718424,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "released_output_grid_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          1274033.7585476586
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.88078423727724,
+        "baseline_max_T_s": 194.6780930426184,
+        "baseline_max_lambda": 4.0141696275991725,
+        "transparent_114p116h_max_pct": 2.4129713634948335,
+        "transparent_114p116h_grid_ratio": 0.09339429018756705,
+        "pooled_192h_max_pct": 1.478042218400542,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "released_output_grid_domain_120": {
+        "grid_shape": [
+          120,
+          120
+        ],
+        "T_s_bounds": [
+          72.0,
+          1274033.7585476586
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.89029045811708,
+        "baseline_max_T_s": 127.99881058782583,
+        "baseline_max_lambda": 8.621993064796978,
+        "transparent_114p116h_max_pct": 2.4315652867848376,
+        "transparent_114p116h_grid_ratio": 0.0913070793142776,
+        "pooled_192h_max_pct": 1.4867394557551554,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      }
+    },
+    "172.37": {
+      "manuscript_claimed_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          31784.783717212616
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          7.38905609893065
+        ],
+        "baseline_max_pct": 36.88433837563107,
+        "baseline_max_T_s": 182.30131418547563,
+        "baseline_max_lambda": 4.443869134799027,
+        "transparent_114p116h_max_pct": 2.5805898814682173,
+        "transparent_114p116h_grid_ratio": 0.11896504433477392,
+        "pooled_192h_max_pct": 1.5781508793021413,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "full_source_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          688685.0519042443
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.89029961761427,
+        "baseline_max_T_s": 213.60800915904548,
+        "baseline_max_lambda": 3.4092840432094835,
+        "transparent_114p116h_max_pct": 2.572928957438696,
+        "transparent_114p116h_grid_ratio": 0.0959002936668528,
+        "pooled_192h_max_pct": 1.574717378803427,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "full_source_domain_120": {
+        "grid_shape": [
+          120,
+          120
+        ],
+        "T_s_bounds": [
+          72.0,
+          688685.0519042443
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.890460317955,
+        "baseline_max_T_s": 83.99139964184741,
+        "baseline_max_lambda": 40.16095841259498,
+        "transparent_114p116h_max_pct": 2.5819581061420953,
+        "transparent_114p116h_grid_ratio": 0.09391610350138332,
+        "pooled_192h_max_pct": 1.579930896689293,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "released_output_grid_domain_60": {
+        "grid_shape": [
+          60,
+          60
+        ],
+        "T_s_bounds": [
+          72.0,
+          1274033.7585476586
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.88078423727724,
+        "baseline_max_T_s": 194.6780930426184,
+        "baseline_max_lambda": 4.0141696275991725,
+        "transparent_114p116h_max_pct": 2.562464895151229,
+        "transparent_114p116h_grid_ratio": 0.09609296158335429,
+        "pooled_192h_max_pct": 1.5707907473433547,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      },
+      "released_output_grid_domain_120": {
+        "grid_shape": [
+          120,
+          120
+        ],
+        "T_s_bounds": [
+          72.0,
+          1274033.7585476586
+        ],
+        "lambda_per_day_bounds": [
+          0.01831563888873418,
+          280.44107633775997
+        ],
+        "baseline_max_pct": 36.89029045811708,
+        "baseline_max_T_s": 127.99881058782583,
+        "baseline_max_lambda": 8.621993064796978,
+        "transparent_114p116h_max_pct": 2.5818922680635943,
+        "transparent_114p116h_grid_ratio": 0.093999689543106,
+        "pooled_192h_max_pct": 1.5799061134089298,
+        "integration_measure": "equal-grid sum in ln(T),ln(lambda), i.e. bounded log-uniform prior; a grid quadrature, not a model Bayes factor"
+      }
+    }
+  },
+  "mc": {
+    "162.0": {
+      "near_short_duration_peak": {
+        "T_s": 182.3,
+        "lambda_day": 4.44,
+        "analytic_literal_code": 0.36884920931927556,
+        "baseline_union_days": 0.2297916666632424,
+        "n": 3000,
+        "code_successes": 1070,
+        "code_p": 0.3566666666666667,
+        "code_se": 0.008745580894668186,
+        "merged_successes": 1069,
+        "merged_p": 0.35633333333333334,
+        "merged_se": 0.008743757561614817
+      },
+      "low_rate": {
+        "T_s": 300,
+        "lambda_day": 0.1,
+        "analytic_literal_code": 0.0324094215387801,
+        "baseline_union_days": 0.40624999998831146,
+        "n": 3000,
+        "code_successes": 101,
+        "code_p": 0.033666666666666664,
+        "code_se": 0.0032930847859427193,
+        "merged_successes": 101,
+        "merged_p": 0.033666666666666664,
+        "merged_se": 0.0032930847859427193
+      },
+      "long_duration": {
+        "T_s": 172800,
+        "lambda_day": 0.05,
+        "analytic_literal_code": 1.333386652760515e-05,
+        "baseline_union_days": 116.52291666666326,
+        "n": 3000,
+        "code_successes": 0,
+        "code_p": 0.0,
+        "code_se": 0.0,
+        "merged_successes": 0,
+        "merged_p": 0.0,
+        "merged_se": 0.0
+      }
+    },
+    "172.37": {
+      "near_short_duration_peak": {
+        "T_s": 182.3,
+        "lambda_day": 4.44,
+        "analytic_literal_code": 0.36884920931927556,
+        "baseline_union_days": 0.2297916666632424,
+        "n": 3000,
+        "code_successes": 1130,
+        "code_p": 0.37666666666666665,
+        "code_se": 0.008846635686121757,
+        "merged_successes": 1132,
+        "merged_p": 0.37733333333333335,
+        "merged_se": 0.00884972483355441
+      },
+      "low_rate": {
+        "T_s": 300,
+        "lambda_day": 0.1,
+        "analytic_literal_code": 0.034447001542456473,
+        "baseline_union_days": 0.41705208332207977,
+        "n": 3000,
+        "code_successes": 107,
+        "code_p": 0.035666666666666666,
+        "code_se": 0.0033859787140281686,
+        "merged_successes": 107,
+        "merged_p": 0.035666666666666666,
+        "merged_se": 0.0033859787140281686
+      },
+      "long_duration": {
+        "T_s": 172800,
+        "lambda_day": 0.05,
+        "analytic_literal_code": 1.4108769659721922e-05,
+        "baseline_union_days": 116.52555717592261,
+        "n": 3000,
+        "code_successes": 0,
+        "code_p": 0.0,
+        "code_se": 0.0,
+        "merged_successes": 0,
+        "merged_p": 0.0,
+        "merged_se": 0.0
+      }
+    }
+  }
+}

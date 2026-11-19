@@ -1,0 +1,162 @@
+{
+  "audit_scope": "Deterministic source and exact-model audit; no Fortran compilation or reproduction of unseeded realizations/MCMC chains.",
+  "source_and_data_sha256": {
+    "data\\kipping_master_dl\\wow-main\\wow.f90": "6cf95c5eb0b4aa2792a167a52d11949b88d099cb2f0223781ba28750030248de",
+    "data\\kipping_master_dl\\wow-main\\output_grid.dat": "69a9597511ba295d3515352414918adfff9f4b568333589f3bb464b9abc50056",
+    "data\\kipping_master_dl\\wow-main\\mcmc.nb": "a02d8c2d94b2877c0cc937c39213636b8feb51b33e3296b59386c3c5349d9e35"
+  },
+  "independent_crosscheck": {
+    "existing_separately_implemented_exact_probability_182p3s_4p44day_162s": 0.36884920931927556,
+    "this_audit_exact_probability_same_point": 0.36884920931927556,
+    "absolute_difference": 0.0,
+    "agreement_within_1e-12": true
+  },
+  "source_parameters": {
+    "Tmin_days": 0.000833333,
+    "Tmax_days": 0.36787944117144233,
+    "lambda_min_day": 0.01831563888873418,
+    "lambda_max_day": 7.38905609893065,
+    "kmax_denominator": 99,
+    "source_grid_shape": [
+      150,
+      160
+    ],
+    "maxcounts": 1000
+  },
+  "released_grid_audit": {
+    "numeric_rows": 25600,
+    "duration_indices": 160,
+    "rate_indices": 160,
+    "first_row": {
+      "ln_or_log10_T": -7.090077235776172,
+      "ln_or_log10_lambda": -4.0,
+      "reported_log10_likelihood_floor": -3.0,
+      "k1": 1,
+      "k2": 1
+    },
+    "first_row_matches_natural_logs": true,
+    "first_row_matches_base10_logs": false,
+    "header_says_log10_but_values_are_ln": true,
+    "notebook_reconstructs_coordinates_from_indices_using_Log": "Log[Tgrid[[k1]]] and Log[lambda_grid[[k2]]]",
+    "notebook_plot_axes_label_base10": true,
+    "output_grid_max_log10_likelihood": -0.3010299956639812,
+    "output_grid_max_probability": 0.5,
+    "output_grid_max_indices_k1_k2": [
+      15,
+      83
+    ],
+    "rows_in_current_source_loop_domain": 24000,
+    "rows_beyond_current_source_k1_loop": 1600,
+    "at_output_grid_max_cell_current_source_simulation_branch_applies": true,
+    "at_output_grid_max_cell_current_source_hardcoded_branch_applies": false,
+    "at_output_grid_max_cell_current_source_exact_probability_162s": 0.31525656445364697,
+    "at_output_grid_max_cell_current_source_hardcoded_map_if_hardcoded_branch": null,
+    "released_grid_max_to_hardcoded_map_ratio": null
+  },
+  "finite_baseline_exact_grid": {
+    "grid_shape": [
+      150,
+      160
+    ],
+    "paper_gap_max_probability": 0.36890465072444445,
+    "paper_gap_max_at_T_s_lambda_day": [
+      160.1919575451615,
+      5.45738477989891
+    ],
+    "source_gap_max_probability": 0.36890465072444445,
+    "source_gap_max_at_T_s_lambda_day": [
+      160.1919575451615,
+      5.45738477989891
+    ],
+    "relative_gap_shift_at_source_exact_peak": 0.0,
+    "cells_in_monte_carlo_simulation_branch": 10600,
+    "cells_hardcoded_to_11_of_11011": 13400,
+    "hardcoded_cells_with_exact_zero_probability": 3939,
+    "exact_success_probability_minmax_in_hardcoded_cells": [
+      0.0,
+      0.00023037679307538484
+    ],
+    "exact_success_probability_minmax_positive_in_hardcoded_cells": [
+      1e-323,
+      0.00023037679307538484
+    ],
+    "hardcoded_source_likelihood": 0.000999000999000999,
+    "hardcoded_to_exact_log10_ratio_minmax_over_positive_exact_probabilities": [
+      0.6371271940668999,
+      320.0047512699725
+    ]
+  },
+  "waiting_count_estimator_audit": {
+    "observed_source_behavior": "counts increments before each realization; a first-trial success returns C=1; capped non-success returns C=maxcounts; n increments for each returned count; ngaveup is not used in p_mode.",
+    "paper_geometric_model": "C is described as number of Bernoulli trials needed to get one success, with likelihood (1-p)^C p per loop.",
+    "standard_geometric_support": "If C counts trials including success, P(C=c|p)=(1-p)^(c-1)p; total failures over W loops are sum(C)-W.",
+    "source_map_formula": "n/(n+sumcounts), where sumcounts includes the terminal success in every uncensored C.",
+    "correct_uncensored_geometric_map_from_trial_counts": "n/sumcounts",
+    "uncensored_large_sample_limit_of_source_formula": "p/(1+p), not p",
+    "capped_expected_wait_count": "E[min(C,maxcounts)]=(1-(1-p)^maxcounts)/p",
+    "capped_large_sample_limit_of_source_formula": "p/(p+1-(1-p)^maxcounts)",
+    "capped_limit_log10_ratio_vs_exact_probability_minmax_162s": [
+      -0.136373198969372,
+      323.0051853474518
+    ],
+    "uncapped_limit_log10_ratio_vs_exact_probability_minmax_162s": [
+      -0.136373198969372,
+      0.0
+    ]
+  },
+  "representative_points": [
+    {
+      "label": "published_32p3_peak",
+      "T_s": 181.0,
+      "lambda_per_day": 3.69,
+      "exact_literal_code_probability_162s": 0.3633383604184729,
+      "exact_literal_code_probability_172p37s": 0.3633383604184729,
+      "gap_change_fraction_172p37_vs_162": 0.0,
+      "expected_capped_wait_count_at_162s": 2.7522554977356526,
+      "source_map_limit_capped_162s": 0.2665063721283007,
+      "source_map_limit_uncapped_162s": 0.2665063721283007,
+      "correct_geometric_map_limit_uncensored": 0.3633383604184729
+    },
+    {
+      "label": "exact_surface_peak_neighbour",
+      "T_s": 182.3,
+      "lambda_per_day": 4.44,
+      "exact_literal_code_probability_162s": 0.36884920931927556,
+      "exact_literal_code_probability_172p37s": 0.36884920931927556,
+      "gap_change_fraction_172p37_vs_162": 0.0,
+      "expected_capped_wait_count_at_162s": 2.711134996996566,
+      "source_map_limit_capped_162s": 0.26945934351870876,
+      "source_map_limit_uncapped_162s": 0.26945934351870876,
+      "correct_geometric_map_limit_uncensored": 0.36884920931927556
+    },
+    {
+      "label": "low_rate",
+      "T_s": 300.0,
+      "lambda_per_day": 0.1,
+      "exact_literal_code_probability_162s": 0.0324094215387801,
+      "exact_literal_code_probability_172p37s": 0.034447001542456473,
+      "gap_change_fraction_172p37_vs_162": 0.06286998986508507,
+      "expected_capped_wait_count_at_162s": 30.855225194421518,
+      "source_map_limit_capped_162s": 0.03139202419373007,
+      "source_map_limit_uncapped_162s": 0.031392024193729925,
+      "correct_geometric_map_limit_uncensored": 0.0324094215387801
+    },
+    {
+      "label": "long_duration",
+      "T_s": 7200.0,
+      "lambda_per_day": 0.05,
+      "exact_literal_code_probability_162s": 0.011544309275179214,
+      "exact_literal_code_probability_172p37s": 0.012276691965356582,
+      "gap_change_fraction_172p37_vs_162": 0.06344101433179938,
+      "expected_capped_wait_count_at_162s": 86.62198097251303,
+      "source_map_limit_capped_162s": 0.011412661399583052,
+      "source_map_limit_uncapped_162s": 0.01141255916258505,
+      "correct_geometric_map_limit_uncensored": 0.011544309275179214
+    }
+  ],
+  "limitations": [
+    "This audit derives exact expected estimator behavior under the geometric model; it does not reproduce the outer precision-stopping distribution or randomized grid values.",
+    "The reported released-chain maxima and MCMC posterior are not recomputed here.",
+    "The exact finite-baseline probability is for the literal individual-event rule and first post-baseline arrival analyzed in the independent reference script."
+  ]
+}
