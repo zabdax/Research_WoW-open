@@ -1,86 +1,47 @@
-<div align="center">
+# The Wow! Signal: forensic bounds and limits of inference
 
-# Forensic Bounds and Identifiability Limits on the Origin of the Wow! Signal
+This repository contains source material, data references, and reproducibility artifacts for an independent research project examining competing explanations of the 1977 Wow! signal. The analysis is deliberately cautious: it does not identify a unique cause or produce a normalized five-hypothesis posterior where the underlying quantities are not commensurate.
 
-**Reproducibility package for Shaad & Khan — submitted to the *International Journal of Astrobiology***
+## Repository status
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23301789.svg)](https://doi.org/10.5281/zenodo.23301789)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-3120/)
-[![Verification](https://img.shields.io/badge/verification-28%2F28_checks_passing-brightgreen.svg)](papers/archive/paper-rev2/scripts/verify_all_numbers.py)
+The Zenodo v1.0.0 record and manuscript files already present in the repository are earlier snapshots. The current manuscript revision is still under author review and has not been deposited as a new Zenodo version. The audit materials added in this branch document recent H2 (comet ephemeris) and H5 (repeating-beacon estimator) checks. They do not constitute a full reproduction of the released Kipping–Gray MCMC chains or a new observational data release.
 
-*Every headline number and figure below regenerates from frozen public inputs with one command.*
+## Recent verification artifacts
 
-</div>
+### H2: exact-epoch comet ephemerides
 
----
+`research/verification/h2_horizons/` contains the query script, raw geocentric and Big Ear topocentric JPL Horizons responses, lookup responses, structured output, and SHA-256 manifest for 266P/Christensen and 335P/Gibbs at 1977-08-16 03:16:06 UTC.
 
-## Results at a glance
+The archived calculation gives formal 3-sigma POS RSS uncertainties of 4.075 arcsec and 10.140 arcsec, respectively, and horn separations of 10.428–12.530 degrees. These are formal orbit-fit uncertainties; they do not provide a complete uncertainty budget for multi-decade backward propagation or non-gravitational effects. See the folder README and JSON for details.
 
-| Result | Value | Verified by |
-|---|---|---|
-| Brightness-temperature bound (compact circular) | $T_B \ge 1.72\times10^4$ K (floor $1.17\times10^4$ K; Gaussian-profile sensitivity $1.19\times10^4$ / $0.81\times10^4$ K) | `reproduce_main_numbers.py` |
-| Kipping–Gray chain maxima (published) | $32.3\%$ / $3.3\%$ / $1.78\%$ | released chains, `reproduce_figures_de.py` |
-| Emulator: OSU-only → transparent Hobart | $5.62\% \to 2.52\%$ (grid-integrated likelihood ratio $0.65$) | `reproduce_main_numbers.py`, audited by `h5_independent_audit.py` |
-| HI4PI persistent-filament check | $\le 0.10$ K/channel measured vs $\gtrsim164$ K predicted (compact); $0.15$ K max over 824 field pixels | `extend_hi4pi.py`, `field_map_hi4pi.py` |
-| Comet ephemeris exclusion | on-sky $11.8°$ / $12.5°$ / $10.4°$ / $11.0°$ vs $\pm3$ s / $\pm20'$ boxes | `horizons_recheck.py` (live JPL query) |
-| H4 frequency coincidence | $5.05\times10^{-6}$ uniform / $7.64\times10^{-5}$ log-uniform (15.1×) | `freq_prior_compare.py` |
+### H5: Kipping–Gray estimator audit
 
-<p align="center">
-  <img src="paper/preview/wow-transit.gif" width="70%" alt="Animated Wow! transit: 36-s FWHM beam response with 6EQUJ5 samples" />
-</p>
+`research/verification/h5_estimator_audit/` contains the source/grid audit, upstream files needed by the audit, numerical cross-checks, compiled single-cell diagnostic, and JSON outputs.
 
-<p align="center">
-  <img src="paper/preview/fig-transit.png" width="32%" alt="36-s FWHM transit with 6EQUJ5 samples" />
-  <img src="paper/preview/fig-hi4pi.png" width="32%" alt="HI4PI spectra at both horns" />
-  <img src="paper/preview/fig-h5.png" width="32%" alt="H5 emulator likelihood surface" />
-</p>
+The audit identifies a 150-by-160 source loop versus a 160-by-160 released grid, and a mismatch between log-column labels and the natural-log coordinate values. Its compiled check is a repeated, stochastic diagnostic at one grid cell. The full released grid and MCMC chains have not been independently reproduced. The exact interval-union calculation in this project is a separate model and should not be mistaken for a validation of the published chain estimator.
 
-## Reproduce everything
+## Reproducibility
 
-```bash
-pip install numpy astropy scipy astroquery matplotlib pillow   # Python 3.12
-python papers/archive/paper-rev2/scripts/reproduce_main_numbers.py   # headline numbers → main_numbers.json
-python papers/archive/paper-rev2/scripts/verify_all_numbers.py      # end-to-end gate, exit 0 iff all pass
+The H2 script requires Python 3 and network access to the official JPL Horizons API:
+
+```powershell
+python research/verification/h2_horizons/scripts/verify_h2_horizons.py
 ```
 
-Full step-by-step (all nine scripts, external inputs, figure mapping):
-[`papers/archive/paper-rev2/scripts/number_figure_manifest.md`](papers/archive/paper-rev2/scripts/number_figure_manifest.md)
+The H5 source audit requires Python 3 and NumPy:
 
-## Contents
-
-```
-paper/                              IJA manuscript (manuscript.tex, CSL class)
-                                    + AASTeX mirror + all review figures
-papers/archive/paper-rev2/scripts/  analysis + figure + verification scripts
-papers/archive/paper-rev2/zenodo/   deposit staging (scripts, JSONs, tables)
-data/kipping_master_dl/wow-main/    Kipping–Gray public release mirror (MIT)
-research/sources/…/campaign_exposure.csv   Hobart session-span table (shared)
-docs/  design notes · background       tools/audit/  reports · ledgers · env
-src/ · configs/ · legacy data/         Python package, configs, Phase-2 inputs
+```powershell
+python research/verification/h5_estimator_audit/audit_h5_estimator.py
 ```
 
-## Manuscripts
+See each folder's README for inputs, output locations, limitations, and checksums. Raw Hobart detection products and donor-restricted records are not included; only previously shared session-span metadata may be present elsewhere in the repository.
 
-- **IJA (submission):** `papers/archive/paper-rev2/ija_manuscript/manuscript.tex` — pdfLaTeX ×2. `overleaf_upload.zip` is the direct Overleaf bundle.
-- **AASTeX mirror:** `papers/archive/paper-rev2/main.tex` (+ `.cls`, `.bst`, `.bib`).
+## Manuscript files
 
-## Data access
-
-- **Public, cited by identifier:** HI4PI (CDS J/A+A/594/A116), Kipping–Gray code+chains (mirrored here, MIT), Méndez et al. arXiv e-prints.
-- **Shared here:** Hobart session-span/pointing table only.
-- **Restricted (not in this repo):** detection thresholds, candidate-generation rules, candidate lists, raw reduction products — inquiries via the authors, subject to donor consent.
+The manuscript copies currently in the repository are historical snapshots. They should not be treated as the current submission candidate. The latest local review package is not included in this update because its corresponding-author block contains a residential address and telephone number. A public manuscript copy should be prepared with those details removed or replaced before release.
 
 ## Citation
 
-```bibtex
-@software{shaad2026wow,
-  author       = {Shaad, Zubayer Hasan and Khan, S M Shadman},
-  title        = {Forensic Bounds and Identifiability Limits on the Origin of the Wow! Signal — reproducibility package},
-  version      = {v1.0.0},
-  doi          = {10.5281/zenodo.23301789},
-  url          = {https://doi.org/10.5281/zenodo.23301789}
-}
-```
+For the earlier archived software release, see [Zenodo v1.0.0](https://doi.org/10.5281/zenodo.23301789). That record predates the current audit artifacts and should not be cited as their archival deposit.
 
-Code: MIT · Data/figures/text: CC-BY-4.0 — see [LICENSE](LICENSE).
+No result in this repository establishes a definitive attribution of the Wow! signal.
