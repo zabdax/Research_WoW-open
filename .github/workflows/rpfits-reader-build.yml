@@ -80,9 +80,9 @@ jobs:
                 enddo
                 end
           EOF
-          cd audit/rpfits/rpfits/linux64
+          cd rpfits/rpfits/linux64
           gfortran -O0 -g -fallow-argument-mismatch -fno-automatic -Wall \
-            -I ../code ../../rpfdump.f librpfits.a -lgfortran -lm -o ../../bundle/rpfdump.exe 2>&1 | tee ../../dump-compile.log
+            -I ../code ../../../rpfdump.f librpfits.a -lgfortran -lm -o ../../bundle/rpfdump.exe 2>&1 | tee ../../dump-compile.log
 
       - name: Bundle required runtime DLLs
         run: |
