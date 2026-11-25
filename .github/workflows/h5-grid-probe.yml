@@ -1,0 +1,54 @@
+name: H5 grid maximum probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            data/kipping_master_dl/wow-main/wow.f90
+            data/kipping_master_dl/wow-main/LICENSE
+          sparse-checkout-cone-mode: false
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc-fortran
+
+      - name: Compile released-grid maximum cell and repeat 300 times
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          gfortran --version | tee audit/compiler-version.txt
+          sha256sum data/kipping_master_dl/wow-main/wow.f90 | tee audit/source-sha256.txt
+          sed -E 's/DO k1=1,150/DO k1=15,15/; s/DO k2=1,160/DO k2=83,83/' data/kipping_master_dl/wow-main/wow.f90 > audit/wow_cell.f90
+          gfortran -O0 -g -fcheck=all -fbacktrace audit/wow_cell.f90 -o audit/wow_cell.exe 2>&1 | tee audit/cell-compile.log
+          printf 'replicate,T_days,lambda_per_day,p_hat,precision,ngaveup\n' > audit/replicate_results.csv
+          for rep in $(seq 1 300); do
+            rm -f output.log
+            ./audit/wow_cell.exe > "audit/run-$rep.txt"
+            read -r T lambda p precision ngaveup < output.log
+            printf '%s,%s,%s,%s,%s,%s\n' "$rep" "$T" "$lambda" "$p" "$precision" "$ngaveup" >> audit/replicate_results.csv
+          done
+          cat audit/replicate_results.csv
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h5-grid-maximum-probe
+          if-no-files-found: error
+          path: |
+            audit/replicate_results.csv
+            audit/compiler-version.txt
+            audit/source-sha256.txt
+            audit/cell-compile.log
