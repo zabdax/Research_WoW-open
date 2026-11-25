@@ -41,45 +41,45 @@ jobs:
           set -euo pipefail
           cd audit
           cat > rpfdump.f <<'EOF'
-      program rpfdump
-      implicit none
-      include 'rpfits.inc'
-      integer, parameter :: mxch = 8192
-      real vis(mxch), wt(mxch)
-      real ut, uu, vv, ww, tbase
-      integer istat, flag, bin, ifno, srcno, k, nspec, j
-      character*256 a1, a2
-      call get_command_argument(1, a1)
-      call get_command_argument(2, a2)
-      read(a2,*) nspec
-      file = a1
-      version = 'rpfdump 1.0'
-      istat = -2
-      call rpfitsin(istat, vis, wt, tbase, ut, uu, vv, ww,
-     &     flag, bin, ifno, srcno)
-      write(*,*) 'OBJECT ', object
-      write(*,*) 'N_IF ', n_if
-      do k=1,n_if
-        write(*,*) 'IF ',k,' NFREQ ',if_nfreq(k),' FREQ ',if_freq(k),
-     &    ' BW ',if_bw(k)
-      enddo
-      write(*,*) 'N_SU ', n_su
-      do k=1,n_su
-        write(*,*) 'SU ',k,' ',su_name(k),' RA ',su_ra(k),' DEC ',
-     &    su_dec(k),' CAL ',su_cal(k)
-      enddo
-      write(*,*) 'N_FG ', n_fg
-      do k=1,nspec
-        istat = 0
-        call rpfitsin(istat, vis, wt, tbase, ut, uu, vv, ww,
-     &     flag, bin, ifno, srcno)
-        if (istat .ne. 0) exit
-        write(*,*) 'SPEC ',k,' UT ',ut,' IF ',ifno,' SRC ',srcno,
-     &    ' FLAG ',flag
-        write(*,*) 'CHAN ', (vis(j),j=1,10)
-      enddo
-      end
-EOF
+                program rpfdump
+                implicit none
+                include 'rpfits.inc'
+                integer, parameter :: mxch = 8192
+                real vis(mxch), wt(mxch)
+                real ut, uu, vv, ww, tbase
+                integer istat, flag, bin, ifno, srcno, k, nspec, j
+                character*256 a1, a2
+                call get_command_argument(1, a1)
+                call get_command_argument(2, a2)
+                read(a2,*) nspec
+                file = a1
+                version = 'rpfdump 1.0'
+                istat = -2
+                call rpfitsin(istat, vis, wt, tbase, ut, uu, vv, ww,
+               &     flag, bin, ifno, srcno)
+                write(*,*) 'OBJECT ', object
+                write(*,*) 'N_IF ', n_if
+                do k=1,n_if
+                  write(*,*) 'IF ',k,' NFREQ ',if_nfreq(k),' FREQ ',if_freq(k),
+               &    ' BW ',if_bw(k)
+                enddo
+                write(*,*) 'N_SU ', n_su
+                do k=1,n_su
+                  write(*,*) 'SU ',k,' ',su_name(k),' RA ',su_ra(k),' DEC ',
+               &    su_dec(k),' CAL ',su_cal(k)
+                enddo
+                write(*,*) 'N_FG ', n_fg
+                do k=1,nspec
+                  istat = 0
+                  call rpfitsin(istat, vis, wt, tbase, ut, uu, vv, ww,
+               &     flag, bin, ifno, srcno)
+                  if (istat .ne. 0) exit
+                  write(*,*) 'SPEC ',k,' UT ',ut,' IF ',ifno,' SRC ',srcno,
+               &    ' FLAG ',flag
+                  write(*,*) 'CHAN ', (vis(j),j=1,10)
+                enddo
+                end
+          EOF
           cd audit/rpfits/rpfits/linux64
           gfortran -O0 -g -fallow-argument-mismatch -fno-automatic -Wall \
             -I ../code ../../rpfdump.f librpfits.a -lgfortran -lm -o ../../bundle/rpfdump.exe 2>&1 | tee ../../dump-compile.log
