@@ -1,0 +1,55 @@
+name: RPFITS reader build audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-reader:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc-fortran mingw-w64-ucrt-x86_64-make curl tar
+
+      - name: Fetch official RPFITS 2.27 source
+        run: |
+          set -euo pipefail
+          mkdir -p audit/rpfits
+          curl -fsSL ftp://ftp.atnf.csiro.au/pub/software/rpfits/rpfits-2.27.tar.gz -o audit/rpfits-2.27.tar.gz
+          sha256sum audit/rpfits-2.27.tar.gz | tee audit/rpfits-sha256.txt
+          tar -xzf audit/rpfits-2.27.tar.gz -C audit/rpfits
+
+      - name: Build library and header tools
+        run: |
+          set -euo pipefail
+          cd audit/rpfits/rpfits/linux64
+          make FC=gfortran CC=gcc MACHTYPE=x all 2>&1 | tee ../../build.log
+          mkdir -p ../../bundle
+          cp -p librpfits.a rpfhdr.exe rpfex.exe ../../bundle/
+
+      - name: Bundle required runtime DLLs
+        run: |
+          set -euo pipefail
+          cd audit/rpfits/bundle
+          ldd rpfhdr.exe | grep -E '/ucrt64/bin/' | awk '{print $3}' | sort -u > dll-list.txt || true
+          while read -r dll; do [ -n "$dll" ] && cp -p "$dll" .; done < dll-list.txt
+          ldd rpfex.exe | grep -E '/ucrt64/bin/' | awk '{print $3}' | sort -u >> dll-list.txt || true
+          while read -r dll; do [ -n "$dll" ] && cp -p "$dll" .; done < dll-list.txt
+          cp -p ../rpfits-sha256.txt .
+          ls -l
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rpfits-reader-bundle
+          if-no-files-found: error
+          path: |
+            audit/rpfits/bundle/
+            audit/build.log
