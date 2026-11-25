@@ -17,7 +17,7 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: mingw-w64-ucrt-x86_64-gcc-fortran mingw-w64-ucrt-x86_64-make curl tar
+          install: mingw-w64-ucrt-x86_64-gcc-fortran mingw-w64-ucrt-x86_64-make make curl tar
 
       - name: Fetch official RPFITS 2.27 source
         run: |
