@@ -93,7 +93,7 @@ jobs:
           done
           sort -u dll-list.txt -o dll-list.txt
           while read -r dll; do [ -n "$dll" ] && cp -n "$dll" .; done < dll-list.txt
-          cp -p ../rpfits-sha256.txt .
+          cp -p ../../rpfits-sha256.txt .
           ls -l
 
       - uses: actions/upload-artifact@v4
