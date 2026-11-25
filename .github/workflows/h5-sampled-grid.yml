@@ -1,0 +1,52 @@
+name: H5 sampled grid comparison
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sampled:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            audit/wow_sampled.f90
+          sparse-checkout-cone-mode: false
+
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: mingw-w64-ucrt-x86_64-gcc-fortran
+
+      - name: Compile unchanged estimator restricted to sampled cells
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          gfortran --version | tee out/compiler-version.txt
+          sha256sum audit/wow_sampled.f90 | tee out/source-sha256.txt
+          gfortran -O2 -ffixed-line-length-none audit/wow_sampled.f90 -o out/wow_sampled.exe 2>&1 | tee out/compile.log
+
+      - name: Run three replicates of every sampled cell
+        run: |
+          set -euo pipefail
+          rm -f out/all_runs.log
+          for rep in 1 2 3; do
+            rm -f output.log
+            out/wow_sampled.exe > "out/run-$rep.txt" 2>&1
+            cat output.log >> out/all_runs.log
+          done
+          wc -l out/all_runs.log
+          head -3 out/all_runs.log
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: h5-sampled-grid
+          if-no-files-found: error
+          path: out/
