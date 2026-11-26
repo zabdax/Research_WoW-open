@@ -1,20 +1,16 @@
 PROGRAM wow
 
 implicit none
-      INTEGER, PARAMETER :: NSEL = 51
+      INTEGER, PARAMETER :: NSEL = 36
       INTEGER :: isel, jx, k1list(NSEL), k2list(NSEL)
-      DATA (k1list(JX),JX=1,10) /1,14,39,69,80,83,100,107,110,117/
-      DATA (k1list(JX),JX=11,20) /122,124,125,127,127,137,141,2,5,6/
-      DATA (k1list(JX),JX=21,30) /7,9,9,11,12,15,15,15,20,21/
-      DATA (k1list(JX),JX=31,40) /21,29,34,39,39,51,57,65,79,94/
-      DATA (k1list(JX),JX=41,50) /100,12,7,4,8,9,12,8,8,5/
-      DATA (k1list(JX),JX=51,51) /4/
-      DATA (k2list(JX),JX=1,10) /1,143,133,140,98,140,55,151,34,144/
-      DATA (k2list(JX),JX=11,20) /74,133,57,16,20,105,16,85,96,78/
-      DATA (k2list(JX),JX=21,30) /83,61,65,41,36,42,83,84,89,23/
-      DATA (k2list(JX),JX=31,40) /69,69,19,11,96,24,9,58,16,20/
-      DATA (k2list(JX),JX=41,50) /2,101,110,111,112,112,112,114,115,118/
-      DATA (k2list(JX),JX=51,51) /135/
+      DATA (k1list(JX),JX=1,10) /1,48,76,106,109,122,144,149,149,3/
+      DATA (k1list(JX),JX=11,20) /4,5,7,11,14,14,14,14,14,15/
+      DATA (k1list(JX),JX=21,30) /15,16,16,16,18,20,20,21,21,23/
+      DATA (k1list(JX),JX=31,36) /23,29,63,66,70,84/
+      DATA (k2list(JX),JX=1,10) /1,97,79,93,28,50,58,21,25,98/
+      DATA (k2list(JX),JX=11,20) /54,73,82,87,42,81,83,88,95,83/
+      DATA (k2list(JX),JX=21,30) /84,31,86,87,16,89,93,69,78,30/
+      DATA (k2list(JX),JX=31,36) /75,69,1,33,2,6/
 
  REAL(8), PARAMETER :: Tmin = 0.000833333D0 ! min signal duration =72 seconds
  REAL(8), PARAMETER :: Tmax = 0.36787944117144233D0 ! max signal duration =e^-1 days
